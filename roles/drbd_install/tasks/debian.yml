@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: MIT-0
+---
+- name: Proxmox OS check
+  ansible.builtin.stat:
+    path: /etc/pve
+  register: drbd_install_pve
+
+- name: Queue DRBD pre-req packages (Proxmox PVE)
+  ansible.builtin.set_fact:
+    drbd_install_prereqs: "{{ drbd_install_prereqs + ['proxmox-default-headers'] }}"
+  when:
+    - ansible_distribution | lower == 'debian'
+    - drbd_install_pve.stat.exists
+
+- name: Queue DRBD pre-req packages (Debian OS)
+  ansible.builtin.set_fact:
+    drbd_install_prereqs: "{{ drbd_install_prereqs + ['linux-headers-amd64'] }}"
+  when:
+    - ansible_distribution | lower == 'debian'
+    - not drbd_install_pve.stat.exists
+
+- name: Queue DRBD pre-req packages (Ubuntu OS)
+  ansible.builtin.set_fact:
+    drbd_install_prereqs: "{{ drbd_install_prereqs + ['linux-headers-generic'] }}"
+  when: ansible_distribution | lower == 'ubuntu'

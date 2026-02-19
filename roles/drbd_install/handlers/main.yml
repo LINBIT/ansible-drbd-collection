@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: MIT-0
+---
+# handlers file for drbd_install
+- name: Restart multipathd after installing drbd-utils (Ubuntu Focal only)
+  ansible.builtin.systemd:
+    name: multipathd
+    state: restarted
+  when:
+    - ansible_distribution == 'Ubuntu'
+    - ansible_distribution_release == 'focal'
+  listen: restart_multipathd

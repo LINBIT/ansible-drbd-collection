@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: MIT-0
+---
+# defaults file for drbd_install
+drbd_install_prereqs: []

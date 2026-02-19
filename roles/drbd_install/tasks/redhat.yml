@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: MIT-0
+---
+# Required for Oracle Linux UEK + DRBD
+- name: Queue pre-req packages (Oracle Linux)
+  ansible.builtin.set_fact:
+    drbd_install_prereqs: "{{ drbd_install_prereqs + ['kernel-uek-modules'] }}"
+  when: ansible_distribution | lower == 'oraclelinux'
