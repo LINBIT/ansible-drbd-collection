@@ -1,3 +1,15 @@
 # Ansible Collection - linbit.drbd
 
-Documentation for the collection.
+Installs the DRBD kernel module and userspace tools.
+DRBD is the foundational block replication layer used by LINSTOR and DRBD Reactor.
+
+## Roles
+
+| Role | Description |
+|---|---|
+| `drbd_install` | Installs DRBD kernel module, userspace packages, and opens replication firewall ports |
+
+## Dependencies
+
+- `ansible.posix` — firewalld management
+- `community.general` — package management
