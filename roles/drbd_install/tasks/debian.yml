@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: MIT-0
+# SPDX-License-Identifier: MIT
 ---
 - name: Queue DRBD pre-req packages (Proxmox PVE)
   ansible.builtin.set_fact:

@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: MIT-0
+# SPDX-License-Identifier: MIT
 ---
 # handlers file for drbd_install
 - name: Restart multipathd after installing drbd-utils (Ubuntu Focal only)
