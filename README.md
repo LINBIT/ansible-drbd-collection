@@ -11,5 +11,7 @@ DRBD is the foundational block replication layer used by LINSTOR and DRBD Reacto
 
 ## Dependencies
 
-- `ansible.posix` — firewalld management
-- `community.general` — package management
+| Collection | Purpose |
+|---|---|
+| `ansible.posix` | firewalld management |
+| `community.general` | package management |
