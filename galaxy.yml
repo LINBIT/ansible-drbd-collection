@@ -19,7 +19,6 @@ tags:
 - ha
 dependencies:
   ansible.posix: '*'
-  linbit.common: '*'
 repository: https://gitlab.at.linbit.com/ansible-collections/linbit.drbd
 documentation: https://linbit.com/user-guides-and-product-documentation/
 homepage: https://linbit.com
