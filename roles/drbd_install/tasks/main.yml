@@ -21,25 +21,19 @@
         - "{{ role_path }}/tasks"
       skip: true
 
-- name: Check if firewalld is running
-  ansible.builtin.command: systemctl status firewalld
-  register: drbd_firewalld
-  failed_when: drbd_firewalld.rc not in [0, 3, 4]
-  changed_when: false
-  when: ansible_os_family | lower in ['redhat', 'suse']
+- name: Gather service facts
+  ansible.builtin.service_facts:
 
 # Use LINSTOR port range 7000-8000
 - name: Open firewalld ports for DRBD
   ansible.posix.firewalld:
-    port: "{{ item }}"
+    port: 7000-8000/tcp
     permanent: true
     immediate: true
     state: enabled
-  with_items:
-    - '7000-8000/tcp'
   when:
-    - drbd_firewalld.rc is defined
-    - drbd_firewalld.rc == 0
+    - ansible_facts.services['firewalld.service'] is defined
+    - ansible_facts.services['firewalld.service'].state == 'running'
 
 # nobest -> true needed if non-RHEL releases lag behind on kernel releases
 - name: Install LINBIT DRBD packages (Red Hat OS family)
