@@ -17,7 +17,8 @@ tags:
 - storage
 - replication
 - ha
-dependencies: {}
+dependencies:
+  ansible.posix: '*'
 repository: https://gitlab.at.linbit.com/ansible-collections/linbit.drbd
 documentation: https://linbit.com/user-guides-and-product-documentation/
 homepage: https://linbit.com
