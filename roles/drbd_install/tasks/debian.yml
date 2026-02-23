@@ -1,8 +1,11 @@
 # SPDX-License-Identifier: MIT
 ---
+# pahole: needed for DKMS builds with BTF-enabled kernels. PVE kernel headers lack
+# this dependency (unlike stock Debian), affecting QDevice nodes running the PVE
+# kernel without a full Proxmox VE install.
 - name: Queue DRBD pre-req packages (Proxmox PVE)
   ansible.builtin.set_fact:
-    drbd_install_prereqs: "{{ drbd_install_prereqs + ['proxmox-default-headers'] }}"
+    drbd_install_prereqs: "{{ drbd_install_prereqs + ['proxmox-default-headers', 'pahole'] }}"
   when:
     - ansible_distribution | lower == 'debian'
     - "'pve' in ansible_kernel"
