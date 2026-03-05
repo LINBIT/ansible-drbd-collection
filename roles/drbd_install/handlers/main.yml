@@ -6,6 +6,6 @@
     name: multipathd
     state: restarted
   when:
-    - ansible_distribution | lower == 'ubuntu'
-    - ansible_distribution_release | lower == 'focal'
+    - ansible_facts['distribution'] | lower == 'ubuntu'
+    - ansible_facts['distribution_release'] | lower == 'focal'
   listen: restart_multipathd

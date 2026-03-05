@@ -7,17 +7,17 @@
   ansible.builtin.set_fact:
     drbd_install_prereqs: "{{ drbd_install_prereqs + ['proxmox-default-headers', 'pahole'] }}"
   when:
-    - ansible_distribution | lower == 'debian'
-    - "'pve' in ansible_kernel"
+    - ansible_facts['distribution'] | lower == 'debian'
+    - "'pve' in ansible_facts['kernel']"
 
 - name: Queue DRBD pre-req packages (Debian OS)
   ansible.builtin.set_fact:
     drbd_install_prereqs: "{{ drbd_install_prereqs + ['linux-headers-amd64'] }}"
   when:
-    - ansible_distribution | lower == 'debian'
-    - "'pve' not in ansible_kernel"
+    - ansible_facts['distribution'] | lower == 'debian'
+    - "'pve' not in ansible_facts['kernel']"
 
 - name: Queue DRBD pre-req packages (Ubuntu OS)
   ansible.builtin.set_fact:
     drbd_install_prereqs: "{{ drbd_install_prereqs + ['linux-headers-generic'] }}"
-  when: ansible_distribution | lower == 'ubuntu'
+  when: ansible_facts['distribution'] | lower == 'ubuntu'

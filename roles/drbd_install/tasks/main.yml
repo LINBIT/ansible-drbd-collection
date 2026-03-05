@@ -5,8 +5,8 @@
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - files:
-        - "{{ ansible_distribution | lower }}.yml"
-        - "{{ ansible_os_family | lower }}.yml"
+        - "{{ ansible_facts['distribution'] | lower }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}.yml"
       paths:
         - "{{ role_path }}/vars"
       skip: true
@@ -15,8 +15,8 @@
   ansible.builtin.include_tasks: "{{ item }}"
   with_first_found:
     - files:
-        - "{{ ansible_distribution | lower }}.yml"
-        - "{{ ansible_os_family | lower }}.yml"
+        - "{{ ansible_facts['distribution'] | lower }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}.yml"
       paths:
         - "{{ role_path }}/tasks"
       skip: true
@@ -41,11 +41,11 @@
     name: "{{ drbd_install_prereqs + drbd_packages }}"
     state: present
     nobest: true
-  when: ansible_os_family | lower == 'redhat'
+  when: ansible_facts['os_family'] | lower == 'redhat'
 
 - name: Install LINBIT DRBD packages (All other OS)
   ansible.builtin.package:
     name: "{{ drbd_install_prereqs + drbd_packages }}"
     state: present
-  when: ansible_os_family | lower != 'redhat'
+  when: ansible_facts['os_family'] | lower != 'redhat'
   notify: restart_multipathd
