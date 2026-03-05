@@ -21,19 +21,9 @@
         - "{{ role_path }}/tasks"
       skip: true
 
-- name: Gather service facts
-  ansible.builtin.service_facts:
-
-# Use LINSTOR port range 7000-8000
-- name: Open firewalld ports for DRBD
-  ansible.posix.firewalld:
-    port: 7000-8000/tcp
-    permanent: true
-    immediate: true
-    state: enabled
-  when:
-    - ansible_facts.services['firewalld.service'] is defined
-    - ansible_facts.services['firewalld.service'].state == 'running'
+- name: Open firewall ports for DRBD
+  ansible.builtin.include_tasks: firewall.yml
+  when: drbd_install_firewall_rules | bool
 
 # nobest -> true needed if non-RHEL releases lag behind on kernel releases
 - name: Install LINBIT DRBD packages (Red Hat OS family)

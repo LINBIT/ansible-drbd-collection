@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+---
+- name: Open firewalld ports for DRBD
+  ansible.posix.firewalld:
+    port: "{{ item.port }}/{{ item.proto }}"
+    permanent: true
+    immediate: true
+    state: enabled
+  loop: "{{ drbd_install_firewall_ports }}"

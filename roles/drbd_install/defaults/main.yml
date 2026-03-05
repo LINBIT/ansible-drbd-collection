@@ -2,3 +2,8 @@
 ---
 # defaults file for drbd_install
 drbd_install_prereqs: []
+
+drbd_install_firewall_rules: true
+
+drbd_install_firewall_ports:
+  - { port: '7000-8000', proto: tcp }

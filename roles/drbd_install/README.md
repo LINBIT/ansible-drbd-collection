@@ -11,7 +11,12 @@ None.
 Role Variables
 --------------
 
-See `defaults/main.yml` and `vars/`.
+| Variable | Default | Description |
+|---|---|---|
+| `drbd_install_firewall_rules` | `true` | Manage firewall rules for DRBD ports; set `false` to skip |
+| `drbd_install_firewall_ports` | `7000-8000/tcp` | Ports to open in firewalld or UFW for DRBD replication |
+
+See `defaults/main.yml` and `vars/` for additional variables.
 
 Dependencies
 ------------
