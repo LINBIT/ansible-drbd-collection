@@ -9,7 +9,7 @@
          | list
          + [drbd_install_pinned_module] }}
 
-- name: Check if DRBD packages need changes
+- name: Check for DRBD updates
   ansible.builtin.apt:
     name: "{{ drbd_install_packages }}"
     state: "{{ drbd_install_package_state }}"

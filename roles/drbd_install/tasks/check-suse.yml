@@ -22,7 +22,7 @@
     - drbd_install_module_version | length > 0
     - _drbd_suse_version.stdout | length > 0
 
-- name: Check if DRBD packages need changes
+- name: Check for DRBD updates
   community.general.zypper:
     name: "{{ drbd_install_packages }}"
     state: "{{ drbd_install_package_state }}"

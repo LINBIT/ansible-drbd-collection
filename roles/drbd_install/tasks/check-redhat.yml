@@ -10,7 +10,7 @@
          + [drbd_install_pinned_module] }}
 
 # nobest: true needed if non-RHEL releases lag behind on kernel releases
-- name: Check if DRBD packages need changes
+- name: Check for DRBD updates
   ansible.builtin.dnf:
     name: "{{ drbd_install_packages }}"
     state: "{{ drbd_install_package_state }}"
