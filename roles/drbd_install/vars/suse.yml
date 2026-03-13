@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: MIT
 ---
-drbd_packages:
+drbd_install_packages:
   - drbd # needs 'zypper in --no-recommends drbd'
   - drbd-kmp-default
   - drbd-ueficert
   - drbd-utils
+
+_drbd_module_package: drbd-kmp-default

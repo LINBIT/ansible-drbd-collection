@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: MIT
+---
+- name: Check existing zypper locks
+  ansible.builtin.command:
+    cmd: zypper locks
+  register: _zypper_locks
+  changed_when: false
+
+- name: Lock DRBD module package version
+  ansible.builtin.command:
+    cmd: zypper addlock {{ _drbd_module_package }}
+  when: _drbd_module_package not in _zypper_locks.stdout

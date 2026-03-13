@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: MIT
 ---
-drbd_packages:
+drbd_install_packages:
   - drbd
   - drbd-utils
   - kmod-drbd
+
+_drbd_module_package: kmod-drbd
+drbd_install_version_separator: "-"

@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: MIT
+---
+- name: Check if DNF versionlock plugin is installed
+  ansible.builtin.command:
+    cmd: rpm -q python3-dnf-plugin-versionlock
+  register: _versionlock_installed
+  changed_when: false
+  failed_when: false
+
+- name: Unlock DRBD module package version
+  community.general.dnf_versionlock:
+    name: "{{ _drbd_module_package }}"
+    state: absent
+  when: _versionlock_installed.rc == 0

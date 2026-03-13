@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: MIT
 ---
-drbd_packages:
+drbd_install_packages:
   - drbd-dkms
  # - drbd-ueficert # not in public proxmox repo
   - drbd-utils
+
+_drbd_module_package: drbd-dkms

@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: MIT
+---
+- name: Install DNF versionlock plugin
+  ansible.builtin.dnf:
+    name: python3-dnf-plugin-versionlock
+    state: present
+
+- name: Lock DRBD module package version
+  community.general.dnf_versionlock:
+    name: "{{ _drbd_module_package }}"
+    state: present
