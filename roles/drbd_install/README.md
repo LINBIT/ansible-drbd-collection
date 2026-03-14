@@ -56,7 +56,6 @@ Install specific DRBD kernel module version (locks version in package manager):
         drbd_install_module_version: '9.3.1'
 ```
 
-
 License
 -------
 
