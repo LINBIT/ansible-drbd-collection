@@ -22,6 +22,31 @@ argument_specs:
         description:
           - Pin the DRBD module package to a specific version, for example C(9.2.17) or C(9.3.0).
           - Also locks the package in the OS package manager to prevent accidental upgrades.
+      drbd_install_prereqs:
+        type: list
+        elements: str
+        default: []
+        description:
+          - Prerequisite packages for DRBD.
+          - Populated by OS-specific vars files.
+      drbd_install_packages:
+        type: list
+        elements: str
+        default: []
+        description:
+          - DRBD packages to install.
+          - Populated by OS-specific vars files.
+      drbd_install_version_separator:
+        type: str
+        default: "="
+        description:
+          - Version separator for package pinning.
+          - Debian uses C(=), RedHat uses C(-). Set by OS-specific vars files.
+      drbd_install_pinned_module:
+        type: str
+        description:
+          - Computed package name with version pin for the DRBD module package.
+          - Only used when C(drbd_install_module_version) is set.
       drbd_install_firewall_rules:
         type: bool
         default: true
