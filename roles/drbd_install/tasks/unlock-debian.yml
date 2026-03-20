@@ -1,14 +1,8 @@
 # SPDX-License-Identifier: MIT
 ---
-- name: Check if DRBD module package is installed
-  ansible.builtin.command:
-    cmd: dpkg-query -W {{ _drbd_module_package }}
-  register: _drbd_pkg_installed
-  changed_when: false
-  failed_when: false
-
-- name: Unlock DRBD module package version
+- name: Remove version lock for DRBD kernel package (APT)
   ansible.builtin.dpkg_selections:
     name: "{{ _drbd_module_package }}"
     selection: install
-  when: _drbd_pkg_installed.rc == 0
+  changed_when: false
+  failed_when: false

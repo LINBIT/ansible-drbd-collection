@@ -14,35 +14,9 @@
   ansible.builtin.include_tasks: open-firewall.yml
   when: drbd_install_firewall_rules | bool
 
-- name: Install LINBIT DRBD packages (DNF)  # noqa: package-latest
-  ansible.builtin.dnf:
-    name: "{{ drbd_install_prereqs + drbd_install_packages }}"
-    state: "{{ drbd_install_package_state }}"
-    nobest: true
-    allow_downgrade: true
-  when: ansible_facts['os_family'] | lower == 'redhat'
-
-- name: Install LINBIT DRBD packages (APT)  # noqa: package-latest
-  ansible.builtin.apt:
-    name: "{{ drbd_install_prereqs + drbd_install_packages }}"
-    state: "{{ drbd_install_package_state }}"
-    allow_downgrade: true
-  when: ansible_facts['os_family'] | lower == 'debian'
-  notify: restart_multipathd
-
-- name: Install LINBIT DRBD packages (Zypper)  # noqa: package-latest
-  community.general.zypper:
-    name: "{{ drbd_install_prereqs + drbd_install_packages }}"
-    state: "{{ drbd_install_package_state }}"
-    oldpackage: true
-    extra_args: --force-resolution
-  when: ansible_facts['os_family'] | lower == 'suse'
+- name: Install DRBD packages
+  ansible.builtin.include_tasks: "package-install-{{ ansible_facts['os_family'] | lower }}.yml"
 
 - name: Lock DRBD module package version
-  ansible.builtin.include_tasks: "{{ item }}"
-  with_first_found:
-    - files:
-        - "lock-{{ ansible_facts['os_family'] | lower }}.yml"
-      paths:
-        - "{{ role_path }}/tasks"
+  ansible.builtin.include_tasks: "lock-{{ ansible_facts['os_family'] | lower }}.yml"
   when: drbd_install_module_version | length > 0

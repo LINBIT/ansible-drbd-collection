@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+---
+- name: Pin DRBD module package version (DNF)
+  ansible.builtin.set_fact:
+    drbd_install_packages: >-
+      {{ drbd_install_packages
+         | reject('equalto', _drbd_module_package)
+         | list
+         + [drbd_install_pinned_module] }}

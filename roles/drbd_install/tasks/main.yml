@@ -15,23 +15,18 @@
         - "{{ role_path }}/vars"
       skip: true
 
-- name: Unlock DRBD module package version
-  ansible.builtin.include_tasks: "{{ item }}"
-  with_first_found:
-    - files:
-        - "unlock-{{ ansible_facts['os_family'] | lower }}.yml"
-      paths:
-        - "{{ role_path }}/tasks"
-  when: drbd_install_module_version | length == 0
-
-- name: Check for DRBD updates
-  ansible.builtin.include_tasks: "{{ item }}"
-  with_first_found:
-    - files:
-        - "check-{{ ansible_facts['os_family'] | lower }}.yml"
-      paths:
-        - "{{ role_path }}/tasks"
-
 - name: Install and configure DRBD
-  ansible.builtin.include_tasks: install-drbd.yml
-  when: _drbd_check is changed
+  when:
+    - _drbd_module_package not in ansible_facts['packages']
+      or drbd_install_module_version | length > 0
+      or drbd_install_package_state != 'present'
+  block:
+    - name: Unlock DRBD module package version
+      ansible.builtin.include_tasks: "unlock-{{ ansible_facts['os_family'] | lower }}.yml"
+
+    - name: Pin DRBD module package version
+      ansible.builtin.include_tasks: "pin-version-{{ ansible_facts['os_family'] | lower }}.yml"
+      when: drbd_install_module_version | length > 0
+
+    - name: Install DRBD
+      ansible.builtin.include_tasks: install-drbd.yml

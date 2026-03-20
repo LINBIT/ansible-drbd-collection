@@ -5,7 +5,7 @@
     name: python3-dnf-plugin-versionlock
     state: present
 
-- name: Lock DRBD module package version
+- name: Lock DRBD module package version (DNF)
   community.general.dnf_versionlock:
     name: "{{ _drbd_module_package }}"
     state: present

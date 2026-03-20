@@ -4,4 +4,3 @@
 - name: Queue pre-req packages (Oracle Linux)
   ansible.builtin.set_fact:
     drbd_install_prereqs: "{{ drbd_install_prereqs + ['kernel-uek-modules'] }}"
-  when: ansible_facts['distribution'] | lower == 'oraclelinux'

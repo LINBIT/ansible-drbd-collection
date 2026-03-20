@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 ---
 # Zypper does not support version globbing, so resolve the exact version
-- name: Resolve pinned DRBD module version
+- name: Resolve pinned DRBD module version (Zypper)
   ansible.builtin.shell:
     cmd: >-
       zypper --non-interactive se -s --match-exact {{ _drbd_module_package }}
@@ -9,24 +9,12 @@
       gsub(/^ +| +$/, "", $4); print $4; exit }'
   register: _drbd_suse_version
   changed_when: false
-  when: drbd_install_module_version | length > 0
 
-- name: Pin DRBD module package version
+- name: Pin DRBD module package version (Zypper)
   ansible.builtin.set_fact:
     drbd_install_packages: >-
       {{ drbd_install_packages
          | reject('equalto', _drbd_module_package)
          | list
          + [_drbd_module_package + '=' + _drbd_suse_version.stdout] }}
-  when:
-    - drbd_install_module_version | length > 0
-    - _drbd_suse_version.stdout | length > 0
-
-- name: Check for DRBD updates
-  community.general.zypper:
-    name: "{{ drbd_install_packages }}"
-    state: "{{ drbd_install_package_state }}"
-    oldpackage: true
-    extra_args: --force-resolution
-  check_mode: true
-  register: _drbd_check
+  when: _drbd_suse_version.stdout | length > 0
