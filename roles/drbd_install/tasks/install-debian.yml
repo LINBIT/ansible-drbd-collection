@@ -9,7 +9,7 @@
     drbd_install_prereqs: "{{ drbd_install_prereqs + ['proxmox-default-headers', 'pahole'] }}"
   when:
     - ansible_facts['distribution'] | lower == 'debian'
-    - _pve_check | bool
+    - ansible_facts | linbit.common.is_pve
 
 - name: Queue DRBD pre-req packages (Debian kernel headers)
   ansible.builtin.set_fact:
