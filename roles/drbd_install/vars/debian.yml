@@ -6,3 +6,4 @@ drbd_install_packages:
   - drbd-utils
 
 _drbd_module_package: drbd-dkms
+_drbd_install_drbdadm_path: /usr/sbin/drbdadm

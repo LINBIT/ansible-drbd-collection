@@ -1,10 +1,5 @@
 # SPDX-License-Identifier: MIT
 ---
-# Used to determine if Proxmox VE is installed
-- name: Gather installed package facts for OS detection
-  ansible.builtin.package_facts:
-  when: ansible_facts['packages'] is not defined
-
 - name: Load OS-specific variables for drbd_install
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
@@ -15,9 +10,22 @@
         - "{{ role_path }}/vars"
       skip: true
 
+- name: Check if drbdadm is installed
+  ansible.builtin.stat:
+    path: "{{ _drbd_install_drbdadm_path }}"
+  register: _drbd_install_drbdadm_check
+
+- name: Check DRBD kernel module version
+  ansible.builtin.slurp:
+    src: /sys/module/drbd/version
+  register: _drbd_install_module_check
+  failed_when: false
+
 - name: Install and configure DRBD
   when:
-    - _drbd_module_package not in ansible_facts['packages']
+    - not _drbd_install_drbdadm_check.stat.exists
+      or _drbd_install_module_check is failed
+      or (_drbd_install_module_check.content | b64decode | trim) is match('^8\.')
       or drbd_install_module_version | length > 0
       or drbd_install_package_state != 'present'
   block:

@@ -6,4 +6,5 @@ drbd_install_packages:
   - kmod-drbd
 
 _drbd_module_package: kmod-drbd
+_drbd_install_drbdadm_path: /sbin/drbdadm
 drbd_install_version_separator: "-"
