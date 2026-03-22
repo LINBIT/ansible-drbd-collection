@@ -17,6 +17,34 @@
 - name: Install DRBD packages
   ansible.builtin.include_tasks: "package-install-{{ ansible_facts['os_family'] | lower }}.yml"
 
+# Verify the DKMS build succeeded. dkms status should show:
+#   drbd/<version>, <kernel>, <arch>: installed
+# dkms build is a no-op if already built, fails if the compile is broken.
+- name: Verify DRBD DKMS module build
+  ansible.builtin.shell:
+    cmd: dkms build "$(dkms status drbd | awk -F'[ ,]' '{print $1; exit}')"
+  when: "'drbd-dkms' in drbd_install_packages"
+  changed_when: false
+
+- name: Load DRBD kernel module
+  community.general.modprobe:
+    name: drbd
+    state: present
+
+- name: Verify DRBD kernel module version
+  ansible.builtin.slurp:
+    src: /sys/module/drbd/version
+  register: _drbd_post_install_version
+
+- name: Assert DRBD 9 kernel module is loaded
+  ansible.builtin.assert:
+    that: not (_drbd_post_install_version.content | b64decode | trim) is match('^8\.')
+    fail_msg: >-
+      DRBD 8.x kernel module is loaded
+      ({{ _drbd_post_install_version.content | b64decode | trim }}).
+      Expected DRBD 9.x. A reboot may be required to load the updated module.
+    quiet: true
+
 - name: Lock DRBD module package version
   ansible.builtin.include_tasks: "lock-{{ ansible_facts['os_family'] | lower }}.yml"
   when: drbd_install_module_version | length > 0
