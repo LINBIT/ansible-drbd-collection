@@ -17,31 +17,57 @@
 - name: Install DRBD packages
   ansible.builtin.include_tasks: "package-install-{{ ansible_facts['os_family'] | lower }}.yml"
 
-# Verify the DKMS build succeeded. dkms status should show:
-#   drbd/<version>, <kernel>, <arch>: installed
-# dkms build is a no-op if already built, fails if the compile is broken.
-- name: Verify DRBD DKMS module build
-  ansible.builtin.shell:
-    cmd: dkms build "$(dkms status drbd | awk -F'[ ,]' '{print $1; exit}')"
-  when: "'drbd-dkms' in drbd_install_packages"
+# Check DKMS status and install if not already installed.
+# dkms status shows: drbd/<version>, <kernel>, <arch>: installed
+- name: Check DRBD DKMS module status
+  ansible.builtin.command:
+    cmd: dkms status drbd
+  register: _drbd_install_dkms_status
   changed_when: false
+  when: "'drbd-dkms' in drbd_install_packages"
+
+- name: Install DRBD DKMS module
+  ansible.builtin.command:
+    cmd: "dkms install {{ _drbd_install_dkms_status.stdout.split(':')[0] | trim }}"
+  when:
+    - "'drbd-dkms' in drbd_install_packages"
+    - "'installed' not in _drbd_install_dkms_status.stdout"
 
 - name: Load DRBD kernel module
   community.general.modprobe:
     name: drbd
     state: present
 
+- name: Check loaded DRBD kernel module version
+  ansible.builtin.slurp:
+    src: /sys/module/drbd/version
+  register: _drbd_install_post_version
+
+# If the in-tree 8.x module was already loaded, rmmod and reload to pick up 9.x.
+- name: Unload DRBD 8.x kernel module
+  community.general.modprobe:
+    name: drbd
+    state: absent
+  when: (_drbd_install_post_version.content | b64decode | trim) is match('^8\.')
+
+- name: Reload DRBD 9 kernel module
+  community.general.modprobe:
+    name: drbd
+    state: present
+  when: (_drbd_install_post_version.content | b64decode | trim) is match('^8\.')
+
+# Always re-check the version for the final assert.
 - name: Verify DRBD kernel module version
   ansible.builtin.slurp:
     src: /sys/module/drbd/version
-  register: _drbd_post_install_version
+  register: _drbd_install_post_version
 
 - name: Assert DRBD 9 kernel module is loaded
   ansible.builtin.assert:
-    that: not (_drbd_post_install_version.content | b64decode | trim) is match('^8\.')
+    that: not (_drbd_install_post_version.content | b64decode | trim) is match('^8\.')
     fail_msg: >-
       DRBD 8.x kernel module is loaded
-      ({{ _drbd_post_install_version.content | b64decode | trim }}).
+      ({{ _drbd_install_post_version.content | b64decode | trim }}).
       Expected DRBD 9.x. A reboot may be required to load the updated module.
     quiet: true
 

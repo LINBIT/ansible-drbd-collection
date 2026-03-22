@@ -24,7 +24,7 @@
 - name: Install and configure DRBD
   when:
     - not _drbd_install_drbdadm_check.stat.exists
-      or _drbd_install_module_check is failed
+      or _drbd_install_module_check.content is not defined
       or (_drbd_install_module_check.content | default('') | b64decode | trim) is match('^8\.')
       or drbd_install_module_version | length > 0
       or drbd_install_package_state != 'present'
