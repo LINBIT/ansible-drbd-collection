@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: MIT
+---
+# LINBIT ships UEK kmod builds for OL8 only; OL9+ must use DKMS (currently).
+drbd_install_force_dkms: "{{ (ansible_facts['distribution_major_version'] | int) >= 9 }}"
+
+drbd_install_dkms_packages:
+  - drbd
+  - drbd-utils
+  - drbd-dkms
+  - dkms
+  - "{{ 'kernel-uek-devel' if ansible_facts | linbit.common.is_uek else 'kernel-devel' }}"
+
+drbd_install_packages: >-
+  {{ drbd_install_dkms_packages if drbd_install_force_dkms | bool else drbd_install_kmod_packages }}
+
+drbd_install_epel_package: "oracle-epel-release-el{{ ansible_facts['distribution_major_version'] }}"
+drbd_install_crb_repo: "ol{{ ansible_facts['distribution_major_version'] }}_codeready_builder"

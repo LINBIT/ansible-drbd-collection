@@ -22,6 +22,14 @@ argument_specs:
         description:
           - Pin the DRBD module package to a specific version, for example C(9.2.17) or C(9.3.0).
           - Also locks the package in the OS package manager to prevent accidental upgrades.
+      drbd_install_force_dkms:
+        type: bool
+        default: false
+        description:
+          - Install C(drbd-dkms) instead of C(kmod-drbd) on RHEL-family distros.
+          - Automatically installs EPEL, enables CRB or PowerTools, and pulls unversioned C(kernel-devel) (or C(kernel-uek-devel) on UEK).
+          - Defaults to C(true) on Oracle Linux 9 and newer because LINBIT does not ship kmod packages for those releases.
+          - Debian/Ubuntu always use DKMS regardless of this flag.
       drbd_install_prereqs:
         type: list
         elements: str

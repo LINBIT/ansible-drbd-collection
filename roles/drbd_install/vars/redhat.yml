@@ -1,10 +1,23 @@
 # SPDX-License-Identifier: MIT
 ---
-drbd_install_packages:
+drbd_install_kmod_packages:
   - drbd
   - drbd-utils
   - kmod-drbd
 
-_drbd_module_package: kmod-drbd
+drbd_install_dkms_packages:
+  - drbd
+  - drbd-utils
+  - drbd-dkms
+  - dkms
+  - kernel-devel
+
+drbd_install_packages: >-
+  {{ drbd_install_dkms_packages if drbd_install_force_dkms | bool else drbd_install_kmod_packages }}
+
+_drbd_module_package: "{{ 'drbd-dkms' if drbd_install_force_dkms | bool else 'kmod-drbd' }}"
 _drbd_install_drbdadm_path: /sbin/drbdadm
 drbd_install_version_separator: "-"
+
+drbd_install_epel_package: epel-release
+drbd_install_crb_repo: "{{ 'powertools' if ansible_facts['distribution_major_version'] == '8' else 'crb' }}"

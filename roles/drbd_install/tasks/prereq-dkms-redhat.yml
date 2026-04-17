@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: MIT
+---
+- name: Install EPEL release package (for DKMS)
+  ansible.builtin.dnf:
+    name: "{{ drbd_install_epel_package }}"
+    state: present
+
+- name: Enable CRB/PowerTools repo (DKMS build deps)
+  ansible.builtin.command:
+    cmd: "dnf config-manager --set-enabled {{ drbd_install_crb_repo }}"
+  changed_when: false

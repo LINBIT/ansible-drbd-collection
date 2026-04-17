@@ -6,6 +6,8 @@ drbd_install_prereqs: []
 
 drbd_install_package_state: present
 
+drbd_install_force_dkms: false
+
 drbd_install_module_version: ""
 
 drbd_install_version_separator: "="
