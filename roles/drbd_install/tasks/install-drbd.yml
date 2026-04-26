@@ -35,6 +35,7 @@
 - name: Install DRBD DKMS module
   ansible.builtin.command:
     cmd: "dkms install {{ _drbd_install_dkms_status.stdout.split(':')[0] | trim }}"
+  changed_when: true
   when:
     - "'drbd-dkms' in drbd_install_packages"
     - "'installed' not in _drbd_install_dkms_status.stdout"

@@ -4,6 +4,7 @@
 - name: Resolve pinned DRBD module version (Zypper)
   ansible.builtin.shell:
     cmd: >-
+      set -o pipefail;
       zypper --non-interactive se -s --match-exact {{ _drbd_module_package }}
       | awk -F'|' '$4 ~ /^ *{{ drbd_install_module_version }}/ {
       gsub(/^ +| +$/, "", $4); print $4; exit }'

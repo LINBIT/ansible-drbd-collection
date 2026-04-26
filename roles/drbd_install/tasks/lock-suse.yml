@@ -9,4 +9,5 @@
 - name: Lock DRBD module package version (Zypper)
   ansible.builtin.command:
     cmd: zypper addlock {{ _drbd_module_package }}
+  changed_when: true
   when: _drbd_module_package not in _zypper_locks.stdout
