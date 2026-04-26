@@ -1,0 +1,4 @@
+---
+skip_list:
+  # Allow short variable (typically underscored) names for long role names
+  - var-naming[no-role-prefix]
