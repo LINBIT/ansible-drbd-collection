@@ -12,10 +12,6 @@ drbd_install_module_version: ""
 
 drbd_install_version_separator: "="
 
-# Placeholder for OS-specific vars (redhat.yml, debian.yml, suse.yml).
-# Must have a default here so argument_specs validation does not fail before include_vars runs.
-_drbd_module_package: ""  # noqa: var-naming[no-role-prefix]
-
 drbd_install_pinned_module: "{{ _drbd_module_package }}{{ drbd_install_version_separator }}{{ drbd_install_module_version }}*"
 
 drbd_install_packages: []
