@@ -20,3 +20,5 @@ drbd_install_firewall_rules: true
 
 drbd_install_firewall_ports:
   - { port: '7000-8000', proto: tcp }
+
+drbd_install_force_reconfigure: false

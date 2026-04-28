@@ -31,6 +31,7 @@
       or (_drbd_install_module_check.content | default('') | b64decode | trim) is match('^8\.')
       or drbd_install_module_version | length > 0
       or drbd_install_package_state != 'present'
+      or drbd_install_force_reconfigure | bool
   block:
     - name: Unlock DRBD module package version
       ansible.builtin.include_tasks: "unlock-{{ ansible_facts['os_family'] | lower }}.yml"

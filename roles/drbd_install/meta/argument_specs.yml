@@ -73,3 +73,13 @@ argument_specs:
             proto: tcp
         description:
           - Ports to open in firewalld or UFW for DRBD replication.
+      drbd_install_force_reconfigure:
+        type: bool
+        default: false
+        description:
+          - Force re-running the install/configure block even when DRBD 9 is
+            already installed and no upgrade or version pin is requested.
+          - Re-asserts firewall ports, re-checks the loaded kernel module,
+            and re-runs the package lock step.
+          - Use for drift correction; redundant on fresh installs (the
+            existing C(when:) clauses already trigger the block).
