@@ -2,8 +2,5 @@
 ---
 _debian_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
 
-# Placeholder for OS-specific vars files (redhat.yml, debian.yml, suse.yml)
-# overridden via include_vars at task time. Defining it here ensures
-# argument_specs validation of drbd_install_pinned_module succeeds before
-# include_vars runs.
+# Empty default; OS-specific vars files override via include_vars.
 _drbd_module_package: ""
