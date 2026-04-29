@@ -30,7 +30,9 @@ ansible-lint:
     - *collection_path
     - pip install --quiet 'ansible-core>=2.20,<2.21' 'ansible-lint>=25.5.0'
   script:
-    - ansible-lint
+    # --offline skips ansible-galaxy fetches for declared linbit.* deps
+    # that are not yet hosted on Galaxy. All lint rules still run.
+    - ansible-lint --offline
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == "main"'
