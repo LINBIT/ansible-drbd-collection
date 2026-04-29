@@ -4,19 +4,19 @@ name: drbd
 version: 0.9.5
 readme: README.md
 authors:
-- Ryan Ronnander <rronnander@linbit.com>
-- Matt Kereczman <matt@linbit.com>
-- Michael Troutman <michael@linbit.com>
-- Devin Vance <devin@linbit.com>
+  - Ryan Ronnander <rronnander@linbit.com>
+  - Matt Kereczman <matt@linbit.com>
+  - Michael Troutman <michael@linbit.com>
+  - Devin Vance <devin@linbit.com>
 description: DRBD kernel module and package installation
 license:
-- MIT
+  - MIT
 tags:
-- linbit
-- drbd
-- storage
-- replication
-- ha
+  - linbit
+  - drbd
+  - storage
+  - replication
+  - ha
 dependencies:
   ansible.posix: '*'
   community.general: '>=10.4.0'
