@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 namespace: linbit
 name: drbd
-version: 0.9.5
+version: 0.9.6
 readme: README.md
 authors:
   - Ryan Ronnander <rronnander@linbit.com>
@@ -19,7 +19,7 @@ tags:
   - ha
 dependencies:
   ansible.posix: '*'
-  community.general: '>=10.4.0'
+  community.general: '>=10.4.0,<12.6.0'
   linbit.common: '*'
 repository: https://gitlab.at.linbit.com/ansible-collections/linbit.drbd
 documentation: https://linbit.com/user-guides-and-product-documentation/
