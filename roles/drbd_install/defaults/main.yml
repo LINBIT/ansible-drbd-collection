@@ -16,6 +16,9 @@ drbd_install_pinned_module: "{{ _drbd_module_package }}{{ drbd_install_version_s
 
 drbd_install_packages: []
 
+# Install drbd-proxy alongside the rest of the DRBD stack
+drbd_install_drbdproxy: false
+
 drbd_install_firewall_rules: true
 
 drbd_install_firewall_ports:

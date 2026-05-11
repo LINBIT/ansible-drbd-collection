@@ -2,7 +2,7 @@
 ---
 - name: Install DRBD packages (DNF)
   ansible.builtin.dnf:
-    name: "{{ drbd_install_prereqs + drbd_install_packages }}"
+    name: "{{ (drbd_install_prereqs + drbd_install_packages) | reject('falsy') | list }}"
     state: "{{ drbd_install_package_state }}"
     nobest: true
     allow_downgrade: true

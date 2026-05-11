@@ -4,6 +4,7 @@ drbd_install_kmod_packages:
   - drbd
   - drbd-utils
   - kmod-drbd
+  - "{{ _drbd_install_proxy }}"
 
 drbd_install_dkms_packages:
   - drbd
@@ -11,6 +12,7 @@ drbd_install_dkms_packages:
   - drbd-dkms
   - dkms
   - kernel-devel
+  - "{{ _drbd_install_proxy }}"
 
 drbd_install_packages: >-
   {{ drbd_install_dkms_packages if drbd_install_force_dkms | bool else drbd_install_kmod_packages }}

@@ -5,6 +5,7 @@ drbd_install_packages:
   - drbd-kmp-default
   - drbd-ueficert
   - drbd-utils
+  - "{{ _drbd_install_proxy }}"
 
 _drbd_module_package: drbd-kmp-default
 _drbd_install_drbdadm_path: /usr/sbin/drbdadm

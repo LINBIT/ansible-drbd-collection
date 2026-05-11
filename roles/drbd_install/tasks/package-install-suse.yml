@@ -2,6 +2,6 @@
 ---
 - name: Install DRBD packages (Zypper)
   community.general.zypper:
-    name: "{{ drbd_install_prereqs + drbd_install_packages }}"
+    name: "{{ (drbd_install_prereqs + drbd_install_packages) | reject('falsy') | list }}"
     state: "{{ drbd_install_package_state }}"
     oldpackage: true

@@ -59,6 +59,11 @@ argument_specs:
         description:
           - Computed package name with version pin for the DRBD module package.
           - Only used when C(drbd_install_module_version) is set.
+      drbd_install_drbdproxy:
+        type: bool
+        default: false
+        description:
+          - Optionally install DRBD Proxy alongside the DRBD stack.
       drbd_install_firewall_rules:
         type: bool
         default: true

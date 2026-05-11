@@ -18,6 +18,7 @@ Role Variables
 | `drbd_install_package_state` | `latest` | Package state: `latest` installs or upgrades, `present` installs only |
 | `drbd_install_module_version` | `""` | Pin the DRBD module package to a specific version, for example `9.2.17` or `9.3.0`. Also locks the package in the OS package manager to prevent accidental upgrades. |
 | `drbd_install_force_dkms` | `false` on most RHEL-family, `true` on Oracle Linux 9+ | Use `drbd-dkms` instead of the prebuilt `kmod-drbd` on RHEL-family distros. Automatically installs EPEL, enables CRB/PowerTools, and pulls unversioned `kernel-devel` (or `kernel-uek-devel` on UEK). Defaults to `true` on Oracle Linux 9+ because LINBIT does not ship kmod packages for that distro. Debian/Ubuntu always use DKMS regardless of this flag. |
+| `drbd_install_drbdproxy` | `false` | Optionally install DRBD Proxy alongside the DRBD stack |
 | `drbd_install_firewall_rules` | `true` | Manage firewall rules for DRBD ports; set `false` to skip |
 | `drbd_install_firewall_ports` | `7000-8000/tcp` | Ports to open in firewalld or UFW for DRBD replication |
 | `drbd_install_force_reconfigure` | `false` | Force re-running the install/configure block even when DRBD 9 is already installed and no upgrade or version pin is requested. Re-asserts firewall ports, re-checks the loaded module, re-runs package lock. Use for drift correction. |
