@@ -54,3 +54,6 @@
   when:
     - drbd_install_mask_shutdown_service | bool
     - ansible_facts.services['drbd-graceful-shutdown.service'] is defined
+
+- name: Flush handlers for drbd_install
+  ansible.builtin.meta: flush_handlers
