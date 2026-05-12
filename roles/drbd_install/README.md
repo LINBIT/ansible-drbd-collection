@@ -22,6 +22,7 @@ Role Variables
 | `drbd_install_firewall_rules` | `true` | Manage firewall rules for DRBD ports; set `false` to skip |
 | `drbd_install_firewall_ports` | `7000-8000/tcp` | Ports to open in firewalld or UFW for DRBD replication |
 | `drbd_install_force_reconfigure` | `false` | Force re-running the install/configure block even when DRBD 9 is already installed and no upgrade or version pin is requested. Re-asserts firewall ports, re-checks the loaded module, re-runs package lock. Use for drift correction. |
+| `drbd_install_mask_shutdown_service` | `false` | Mask `drbd-graceful-shutdown.service`. Pacemaker-managed stacks should set this to `true` as Pacemaker is solely responsible for stopping DRBD on shutdown. |
 
 See `defaults/main.yml` and `vars/` for additional variables.
 

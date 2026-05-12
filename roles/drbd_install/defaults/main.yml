@@ -25,3 +25,6 @@ drbd_install_firewall_ports:
   - { port: '7000-8000', proto: tcp }
 
 drbd_install_force_reconfigure: false
+
+# Mask drbd-graceful-shutdown.service - useful for Pacemaker
+drbd_install_mask_shutdown_service: false

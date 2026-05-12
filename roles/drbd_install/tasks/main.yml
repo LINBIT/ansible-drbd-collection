@@ -42,3 +42,15 @@
 
     - name: Install DRBD
       ansible.builtin.include_tasks: install-drbd.yml
+
+- name: Gather service facts to check for drbd-graceful-shutdown
+  ansible.builtin.service_facts:
+  when: drbd_install_mask_shutdown_service | bool
+
+- name: Mask drbd-graceful-shutdown.service
+  ansible.builtin.systemd_service:
+    name: drbd-graceful-shutdown.service
+    masked: true
+  when:
+    - drbd_install_mask_shutdown_service | bool
+    - ansible_facts.services['drbd-graceful-shutdown.service'] is defined

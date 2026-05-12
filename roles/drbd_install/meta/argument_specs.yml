@@ -88,3 +88,11 @@ argument_specs:
             and re-runs the package lock step.
           - Use for drift correction; redundant on fresh installs (the
             existing C(when:) clauses already trigger the block).
+      drbd_install_mask_shutdown_service:
+        type: bool
+        default: false
+        description:
+          - Mask C(drbd-graceful-shutdown.service) on the target host.
+          - >-
+            Pacemaker-managed stacks should set this to C(true) as Pacemaker
+            is solely responsible for stopping DRBD on shutdown.
