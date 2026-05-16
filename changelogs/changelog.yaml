@@ -1,0 +1,25 @@
+---
+ancestor: 0.9.6
+releases:
+  0.9.7:
+    changes:
+      bugfixes:
+        - 'drbd_install - flush handlers at end of role so subsequent plays see the
+          freshly installed kernel module without waiting for the global post-task
+          flush.
+
+          '
+      minor_changes:
+        - 'drbd_install - optional DRBD Proxy package installation via ``drbd_install_drbdproxy:
+          true``.
+
+          '
+        - 'drbd_install - optional masking of ``drbd-shutdown.service`` via ``drbd_install_mask_shutdown_service:
+          true`` for setups that manage DRBD shutdown out of band.
+
+          '
+    fragments:
+      - drbd_install_drbdproxy.yml
+      - drbd_install_flush_handlers.yml
+      - drbd_install_mask_shutdown.yml
+    release_date: '2026-05-13'
