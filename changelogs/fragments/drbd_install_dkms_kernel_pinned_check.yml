@@ -2,12 +2,7 @@
 ---
 bugfixes:
   - >
-    drbd_install - pin the DKMS verification to the running kernel
-    via ``dkms status -m drbd -k {{ ansible_facts['kernel'] }}`` and
-    add a post-build assert. Previously the unpinned ``dkms status drbd``
-    returned a row per kernel under ``/lib/modules/``, and the
-    ``'installed' not in stdout`` test passed as long as ANY kernel
-    reported ``installed``, even when the running kernel's row reported
-    ``added`` or was missing entirely. The role now fails loudly on
-    real DKMS build failures for the running kernel instead of silently
-    handing back a degraded node.
+    drbd_install - pin the DKMS verification to the running kernel and
+    add a post-build assert, so the role fails on real DKMS build
+    failures for the running kernel instead of accepting a stale
+    ``installed`` status from an unrelated kernel slot.
