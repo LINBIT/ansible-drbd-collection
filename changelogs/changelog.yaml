@@ -23,3 +23,15 @@ releases:
       - drbd_install_flush_handlers.yml
       - drbd_install_mask_shutdown.yml
     release_date: '2026-05-13'
+  0.9.8:
+    changes:
+      bugfixes:
+        - 'drbd_install - pin the DKMS verification to the running kernel and add
+          a post-build assert, so the role fails on real DKMS build failures for the
+          running kernel instead of accepting a stale ``installed`` status from an
+          unrelated kernel slot.
+
+          '
+    fragments:
+      - drbd_install_dkms_kernel_pinned_check.yml
+    release_date: '2026-05-21'

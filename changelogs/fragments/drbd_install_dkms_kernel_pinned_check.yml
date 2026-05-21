@@ -1,8 +1,0 @@
-# SPDX-License-Identifier: MIT
----
-bugfixes:
-  - >
-    drbd_install - pin the DKMS verification to the running kernel and
-    add a post-build assert, so the role fails on real DKMS build
-    failures for the running kernel instead of accepting a stale
-    ``installed`` status from an unrelated kernel slot.
