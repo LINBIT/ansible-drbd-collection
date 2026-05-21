@@ -23,22 +23,44 @@
 - name: Install DRBD packages
   ansible.builtin.include_tasks: "package-install-{{ ansible_facts['os_family'] | lower }}.yml"
 
-# Check DKMS status and install if not already installed.
-# dkms status shows: drbd/<version>, <kernel>, <arch>: installed
-- name: Check DRBD DKMS module status
+- name: Verify DRBD DKMS module built for the running kernel
   ansible.builtin.command:
-    cmd: dkms status drbd
-  register: _drbd_install_dkms_status
-  changed_when: false
+    cmd: "dkms status -m drbd -k {{ ansible_facts['kernel'] }}"
   when: "'drbd-dkms' in drbd_install_packages"
+  register: _drbd_install_dkms_check
+  changed_when: false
 
-- name: Install DRBD DKMS module
-  ansible.builtin.command:
-    cmd: "dkms install {{ _drbd_install_dkms_status.stdout.split(':')[0] | trim }}"
-  changed_when: true
+- name: Build DRBD DKMS modules for the running kernel
   when:
     - "'drbd-dkms' in drbd_install_packages"
-    - "'installed' not in _drbd_install_dkms_status.stdout"
+    - "'installed' not in _drbd_install_dkms_check.stdout"
+  block:
+    - name: Run dkms autoinstall for the running kernel
+      ansible.builtin.command:
+        cmd: "dkms autoinstall -k {{ ansible_facts['kernel'] }}"
+      changed_when: true
+
+    - name: Re-check DRBD DKMS module status after build
+      ansible.builtin.command:
+        cmd: "dkms status -m drbd -k {{ ansible_facts['kernel'] }}"
+      register: _drbd_install_dkms_recheck
+      changed_when: false
+
+- name: Assert DRBD DKMS module is installed for the running kernel
+  ansible.builtin.assert:
+    that: >-
+      'installed' in (_drbd_install_dkms_recheck.stdout
+        | default(_drbd_install_dkms_check.stdout, true))
+    fail_msg: >-
+      DRBD DKMS module is not installed for the running kernel
+      ({{ ansible_facts['kernel'] }}). dkms status output:
+      {{ _drbd_install_dkms_recheck.stdout
+        | default(_drbd_install_dkms_check.stdout, true)
+        | default('<empty>') }}.
+      Check that kernel headers for {{ ansible_facts['kernel'] }} are
+      installed and inspect `journalctl -t dkms` for build errors.
+    quiet: true
+  when: "'drbd-dkms' in drbd_install_packages"
 
 - name: Load DRBD kernel module
   community.general.modprobe:
