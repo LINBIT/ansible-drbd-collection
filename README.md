@@ -10,7 +10,7 @@ The `linbit.drbd` Ansible collection for installing and configuring [DRBD®](htt
 
 | Role | Description |
 |---|---|
-| `drbd_install` | Installs DRBD kernel module, userspace packages, and opens replication firewall ports |
+| [`drbd_install`](roles/drbd_install/README.md) | Installs DRBD kernel module, userspace packages, and opens replication firewall ports |
 
 ## Licensing
 
