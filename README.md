@@ -6,6 +6,33 @@ The `linbit.drbd` Ansible collection for installing and configuring [DRBD®](htt
 
 - ansible-core 2.16 or newer
 
+## Installation
+
+Install directly from GitHub using `requirements.yml` until LINBIT publishes to Ansible Galaxy:
+
+```yaml
+# requirements.yml
+collections:
+  - name: linbit.common
+    source: https://github.com/LINBIT/ansible-common-collection.git
+    type: git
+  - name: linbit.drbd
+    source: https://github.com/LINBIT/ansible-drbd-collection.git
+    type: git
+```
+
+```bash
+ansible-galaxy collection install -r requirements.yml
+```
+
+To upgrade to the latest commits on the default branch:
+
+```bash
+ansible-galaxy collection install -r requirements.yml --upgrade
+```
+
+See [using Ansible collections](https://docs.ansible.com/ansible/latest/collections_guide/) for more details.
+
 ## Roles
 
 | Role | Description |
