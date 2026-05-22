@@ -2,18 +2,15 @@
 
 The `linbit.drbd` Ansible collection for installing and configuring [DRBD®](https://linbit.com/drbd/).
 
+## Requirements
+
+- ansible-core 2.16 or newer
+
 ## Roles
 
 | Role | Description |
 |---|---|
 | `drbd_install` | Installs DRBD kernel module, userspace packages, and opens replication firewall ports |
-
-## Dependencies
-
-| Collection | Purpose |
-|---|---|
-| `ansible.posix` | firewalld management |
-| `community.general` | package management |
 
 ## Licensing
 
