@@ -21,3 +21,9 @@ DRBD is the foundational block replication layer used by LINSTOR and DRBD Reacto
 This collection is licensed under the MIT License.
 
 See [LICENSE](LICENSE) for the full text.
+
+## Authors
+
+Created in 2026 by [Ryan Ronnander](https://github.com/ryan-ronnander) on behalf of [LINBIT](https://linbit.com).
+
+Inspired by pre-collection Ansible contributions from [Matt Kereczman](https://github.com/kermat), [Ryan Ronnander](https://github.com/ryan-ronnander), [Michael Troutman](https://github.com/emteelb), and [Devin Vance](https://github.com/dvance).
