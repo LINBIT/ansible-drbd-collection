@@ -1,24 +1,10 @@
 # SPDX-License-Identifier: MIT
 ---
-# DRBD uses DKMS, so install headers for all installed kernels.
-# proxmox-default-headers: metapackage for PVE kernel headers
-# linux-headers-amd64: metapackage for stock Debian kernel headers
-# pahole: needed for DKMS builds with BTF-enabled kernels
-- name: Queue DRBD pre-req packages (Proxmox VE)
+- name: Queue DRBD kernel header packages for the running kernel
   ansible.builtin.set_fact:
-    drbd_install_prereqs: "{{ drbd_install_prereqs + ['proxmox-default-headers', 'pahole'] }}"
-  when:
-    - ansible_facts['distribution'] | lower == 'debian'
-    - ansible_facts | linbit.common.is_pve
+    drbd_install_prereqs: "{{ drbd_install_prereqs + (ansible_facts | linbit.common.dkms_kernel_headers) }}"
 
-- name: Queue DRBD pre-req packages (Debian kernel headers)
+- name: Queue pahole for Proxmox VE BTF DKMS builds
   ansible.builtin.set_fact:
-    drbd_install_prereqs: "{{ drbd_install_prereqs + ['linux-headers-' + _debian_arch] }}"
-  when:
-    - ansible_facts['distribution'] | lower == 'debian'
-    - "'pve' not in ansible_facts['kernel']"
-
-- name: Queue DRBD pre-req packages (Ubuntu OS)
-  ansible.builtin.set_fact:
-    drbd_install_prereqs: "{{ drbd_install_prereqs + ['linux-headers-generic'] }}"
-  when: ansible_facts['distribution'] | lower == 'ubuntu'
+    drbd_install_prereqs: "{{ drbd_install_prereqs + ['pahole'] }}"
+  when: ansible_facts | linbit.common.is_pve

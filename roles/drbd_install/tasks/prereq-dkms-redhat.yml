@@ -9,3 +9,10 @@
   ansible.builtin.command:
     cmd: "dnf config-manager --set-enabled {{ drbd_install_crb_repo }}"
   changed_when: false
+
+- name: Install kernel headers for DKMS (DNF)
+  ansible.builtin.dnf:
+    name: "{{ ansible_facts | linbit.common.dkms_kernel_headers }}"
+    state: present
+    nobest: true
+    allow_downgrade: true

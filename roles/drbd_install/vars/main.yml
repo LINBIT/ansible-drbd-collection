@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: MIT
 ---
-_debian_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
-
 # Empty default; OS-specific vars files override via include_vars.
 _drbd_module_package: ""
 

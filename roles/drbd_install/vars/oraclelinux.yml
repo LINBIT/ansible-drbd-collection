@@ -8,7 +8,6 @@ drbd_install_dkms_packages:
   - drbd-utils
   - drbd-dkms
   - dkms
-  - "{{ 'kernel-uek-devel' if ansible_facts | linbit.common.is_uek else 'kernel-devel' }}"
   - "{{ _drbd_install_proxy }}"
 
 drbd_install_packages: >-

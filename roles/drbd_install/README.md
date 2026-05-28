@@ -26,6 +26,12 @@ Role Variables
 
 See `defaults/main.yml` and `vars/` for additional variables.
 
+On the Debian family (Debian, Ubuntu, Proxmox VE), the role installs the kernel
+headers matching the running kernel's flavor/edition — for example
+`linux-headers-cloud-amd64` on Debian cloud images or `linux-headers-aws` on
+Ubuntu AWS kernels — so DKMS can build DRBD for the booted kernel. Cloud and
+specialized kernels are handled automatically.
+
 Dependencies
 ------------
 

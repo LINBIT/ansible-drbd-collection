@@ -28,8 +28,8 @@ argument_specs:
         description:
           - Install C(drbd-dkms) instead of C(kmod-drbd) on RHEL-family distros.
           - >-
-            Automatically installs EPEL, enables CRB or PowerTools, and pulls unversioned C(kernel-devel)
-            (or C(kernel-uek-devel) on UEK).
+            Automatically installs EPEL, enables CRB or PowerTools, and installs the running kernel's
+            C(kernel-devel) (or C(kernel-uek-devel) on UEK).
           - >-
             Defaults to C(true) on Oracle Linux 9 and newer because LINBIT does not ship kmod packages for
             those releases.
