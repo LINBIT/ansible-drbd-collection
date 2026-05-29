@@ -16,21 +16,29 @@ Role Variables
 | Variable | Default | Description |
 |---|---|---|
 | `drbd_install_package_state` | `latest` | Package state: `latest` installs or upgrades, `present` installs only |
-| `drbd_install_module_version` | `""` | Pin the DRBD module package to a specific version, for example `9.2.17` or `9.3.0`. Also locks the package in the OS package manager to prevent accidental upgrades. |
-| `drbd_install_force_dkms` | `false` on most RHEL-family, `true` on Oracle Linux 9+ | Use `drbd-dkms` instead of the prebuilt `kmod-drbd` on RHEL-family distros. Automatically installs EPEL, enables CRB/PowerTools, and pulls unversioned `kernel-devel` (or `kernel-uek-devel` on UEK). Defaults to `true` on Oracle Linux 9+ because LINBIT does not ship kmod packages for that distro. Debian/Ubuntu always use DKMS regardless of this flag. |
+| `drbd_install_module_version` | `""` | Pin the DRBD module package to a version, for example `9.2.17`; also locks it against upgrades |
+| `drbd_install_force_dkms` | `false` on most RHEL-family, `true` on Oracle Linux 9+ | Use `drbd-dkms` instead of prebuilt `kmod-drbd` on RHEL-family (see [DKMS on RHEL-family](#dkms-on-rhel-family)) |
 | `drbd_install_drbdproxy` | `false` | Optionally install DRBD Proxy alongside the DRBD stack |
 | `drbd_install_firewall_rules` | `true` | Manage firewall rules for DRBD ports; set `false` to skip |
 | `drbd_install_firewall_ports` | `7000-8000/tcp` | Ports to open in firewalld or UFW for DRBD replication |
-| `drbd_install_force_reconfigure` | `false` | Force re-running the install/configure block even when DRBD 9 is already installed and no upgrade or version pin is requested. Re-asserts firewall ports, re-checks the loaded module, re-runs package lock. Use for drift correction. |
-| `drbd_install_mask_shutdown_service` | `false` | Mask `drbd-graceful-shutdown.service`. Pacemaker-managed stacks should set this to `true` as Pacemaker is solely responsible for stopping DRBD on shutdown. |
+| `drbd_install_force_reconfigure` | `false` | Force the install/configure block to re-run when DRBD 9 is present, re-asserting firewall, module, and package-lock state |
+| `drbd_install_mask_shutdown_service` | `false` | Mask `drbd-graceful-shutdown.service`; set `true` for Pacemaker-managed stacks |
 
 See `defaults/main.yml` and `vars/` for additional variables.
 
-On the Debian family (Debian, Ubuntu, Proxmox VE), the role installs the kernel
-headers matching the running kernel's flavor/edition — for example
-`linux-headers-cloud-amd64` on Debian cloud images or `linux-headers-aws` on
-Ubuntu AWS kernels — so DKMS can build DRBD for the booted kernel. Cloud and
-specialized kernels are handled automatically.
+DKMS on the Debian family
+-------------------------
+
+On the Debian family (Debian, Ubuntu, Proxmox VE), the role installs the kernel headers matching the running kernel's flavor or edition (for example `linux-headers-cloud-amd64` on Debian cloud images or `linux-headers-aws` on Ubuntu AWS kernels) so DKMS can build DRBD for the booted kernel.
+Cloud and specialized kernels are handled automatically.
+
+DKMS on RHEL-family
+-------------------
+
+`drbd_install_force_dkms` installs `drbd-dkms` instead of the prebuilt `kmod-drbd`.
+It automatically installs EPEL, enables the CRB/PowerTools repository, and pulls the unversioned `kernel-devel` (or `kernel-uek-devel` on UEK).
+It defaults to `true` on Oracle Linux 9+ because LINBIT does not ship kmod packages for that distribution.
+Debian and Ubuntu always use DKMS regardless of this flag.
 
 Dependencies
 ------------
