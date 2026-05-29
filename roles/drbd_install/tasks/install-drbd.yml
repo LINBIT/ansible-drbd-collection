@@ -14,7 +14,7 @@
   ansible.builtin.include_tasks: open-firewall.yml
   when: drbd_install_firewall_rules | bool
 
-- name: Install DKMS prerequisites (RedHat family)
+- name: Install DKMS prerequisites (Red Hat family)
   ansible.builtin.include_tasks: prereq-dkms-redhat.yml
   when:
     - drbd_install_force_dkms | bool

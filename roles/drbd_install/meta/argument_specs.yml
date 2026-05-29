@@ -53,7 +53,7 @@ argument_specs:
         default: "="
         description:
           - Version separator for package pinning.
-          - Debian uses C(=), RedHat uses C(-). Set by OS-specific vars files.
+          - Debian uses C(=), Red Hat uses C(-). Set by OS-specific vars files.
       drbd_install_pinned_module:
         type: str
         description:
