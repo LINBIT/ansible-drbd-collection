@@ -1,23 +1,20 @@
-drbd_install
-============
+# drbd_install
 
 Install DRBD kernel module and userspace tools.
 Re-running the role upgrades DRBD packages when newer versions are available.
 Set `drbd_install_package_state: present` to skip upgrades and only install missing packages.
 
-Requirements
-------------
+## Requirements
 
 None.
 
-Role Variables
---------------
+## Role Variables
 
 | Variable | Default | Description |
 |---|---|---|
 | `drbd_install_package_state` | `latest` | Package state: `latest` installs or upgrades, `present` installs only |
 | `drbd_install_module_version` | `""` | Pin the DRBD module package to a version, for example `9.2.17`; also locks it against upgrades |
-| `drbd_install_force_dkms` | `false` on most RHEL-family, `true` on Oracle Linux 9+ | Use `drbd-dkms` instead of prebuilt `kmod-drbd` on RHEL-family (see [DKMS on RHEL-family](#dkms-on-rhel-family)) |
+| `drbd_install_force_dkms` | `false` on the Red Hat family, `true` on Oracle Linux 9+ | Use `drbd-dkms` instead of prebuilt `kmod-drbd` on the Red Hat family (see [DKMS on the Red Hat family](#dkms-on-the-red-hat-family)) |
 | `drbd_install_drbdproxy` | `false` | Optionally install DRBD Proxy alongside the DRBD stack |
 | `drbd_install_firewall_rules` | `true` | Manage firewall rules for DRBD ports; set `false` to skip |
 | `drbd_install_firewall_ports` | `7000-8000/tcp` | Ports to open in firewalld or UFW for DRBD replication |
@@ -26,27 +23,23 @@ Role Variables
 
 See `defaults/main.yml` and `vars/` for additional variables.
 
-DKMS on the Debian family
--------------------------
+### DKMS on the Debian family
 
 On the Debian family (Debian, Ubuntu, Proxmox VE), the role installs the kernel headers matching the running kernel's flavor or edition (for example `linux-headers-cloud-amd64` on Debian cloud images or `linux-headers-aws` on Ubuntu AWS kernels) so DKMS can build DRBD for the booted kernel.
 Cloud and specialized kernels are handled automatically.
 
-DKMS on RHEL-family
--------------------
+### DKMS on the Red Hat family
 
 `drbd_install_force_dkms` installs `drbd-dkms` instead of the prebuilt `kmod-drbd`.
 It automatically installs EPEL, enables the CRB/PowerTools repository, and pulls the unversioned `kernel-devel` (or `kernel-uek-devel` on UEK).
 It defaults to `true` on Oracle Linux 9+ because LINBIT does not ship kmod packages for that distribution.
 Debian and Ubuntu always use DKMS regardless of this flag.
 
-Dependencies
-------------
+## Dependencies
 
 None.
 
-Example Playbook
-----------------
+## Example Playbook
 
 Install latest version of DRBD on any supported OS:
 
@@ -74,12 +67,10 @@ Install specific DRBD kernel module version (locks version in package manager):
         drbd_install_module_version: '9.3.1'
 ```
 
-License
--------
+## License
 
 MIT
 
-Author Information
-------------------
+## Author Information
 
 [LINBIT](https://linbit.com)
