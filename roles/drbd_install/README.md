@@ -8,7 +8,7 @@ Set `drbd_install_package_state: present` to skip upgrades and only install miss
 
 None.
 
-## Role Variables
+## Role variables
 
 | Variable | Default | Description |
 |---|---|---|
@@ -39,7 +39,7 @@ Debian and Ubuntu always use DKMS regardless of this flag.
 
 None.
 
-## Example Playbook
+## Example playbook
 
 Install latest version of DRBD on any supported OS:
 
@@ -71,6 +71,6 @@ Install specific DRBD kernel module version (locks version in package manager):
 
 MIT
 
-## Author Information
+## Author information
 
 [LINBIT](https://linbit.com)
