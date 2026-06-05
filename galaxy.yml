@@ -5,9 +5,6 @@ version: 0.9.8
 readme: README.md
 authors:
   - Ryan Ronnander <rronnander@linbit.com>
-  - Matt Kereczman <matt@linbit.com>
-  - Michael Troutman <michael@linbit.com>
-  - Devin Vance <devin@linbit.com>
 description: DRBD kernel module and package installation
 license:
   - MIT
