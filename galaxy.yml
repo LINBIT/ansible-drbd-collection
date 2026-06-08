@@ -16,7 +16,7 @@ tags:
   - ha
 dependencies:
   ansible.posix: '*'
-  community.general: '>=10.4.0'
+  community.general: '>=11.0.0'
   linbit.common: '*'
 repository: https://github.com/LINBIT/ansible-drbd-collection
 documentation: https://github.com/LINBIT/ansible-drbd-collection
