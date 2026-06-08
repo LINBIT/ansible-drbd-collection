@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+---
+bugfixes:
+  - >
+    drbd_install - gather minimal OS facts when they are not already
+    present, so the role works when invoked with tag filters that skip the
+    implicit fact-gathering task or under ``gather_facts: false``. This
+    matters because drbd_install runs as a meta-dependency of
+    satellite_install, ahead of that role's own fact gathering.
