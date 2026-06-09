@@ -32,7 +32,7 @@ Cloud and specialized kernels are handled automatically.
 
 `drbd_install_force_dkms` installs `drbd-dkms` instead of the prebuilt `kmod-drbd`.
 It automatically installs EPEL, enables the CRB/PowerTools repository, and pulls the unversioned `kernel-devel` (or `kernel-uek-devel` on UEK).
-It defaults to `true` on Oracle Linux 9+ because LINBIT does not ship kmod packages for that distribution.
+The default is `true` on Oracle Linux 9+ because LINBIT does not ship kmod packages for that distribution.
 Debian and Ubuntu always use DKMS regardless of this flag.
 
 ## Dependencies
