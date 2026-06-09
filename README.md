@@ -37,7 +37,7 @@ See [using Ansible collections](https://docs.ansible.com/ansible/latest/collecti
 
 | Role | Description |
 |---|---|
-| [`drbd_install`](roles/drbd_install/README.md) | Installs DRBD kernel module, userspace packages, and opens replication firewall ports |
+| [`drbd_install`](roles/drbd_install/README.md) | Install DRBD kernel module, userspace packages, and open replication firewall ports |
 
 ## Licensing
 
