@@ -5,12 +5,12 @@ argument_specs:
     short_description: Install DRBD kernel module and userspace tools
     description:
       - Install DRBD kernel module and userspace tools.
-      - Re-running the role upgrades DRBD packages when newer versions are available.
-      - Set C(drbd_install_package_state=present) to skip upgrades and only install missing packages.
+      - Re-running the role skips package installation when DRBD is already installed.
+      - Set C(drbd_install_package_state=latest) to upgrade DRBD packages on re-runs.
     options:
       drbd_install_package_state:
         type: str
-        default: latest
+        default: present
         choices:
           - latest
           - present

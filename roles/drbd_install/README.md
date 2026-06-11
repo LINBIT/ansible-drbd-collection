@@ -1,8 +1,8 @@
 # drbd_install
 
 Install DRBD kernel module and userspace tools.
-Re-running the role upgrades DRBD packages when newer versions are available.
-Set `drbd_install_package_state: present` to skip upgrades and only install missing packages.
+Re-running the role skips package installation when DRBD is already installed.
+Set `drbd_install_package_state: latest` to upgrade DRBD packages on re-runs.
 
 ## Requirements
 
@@ -12,7 +12,7 @@ None.
 
 | Variable | Default | Description |
 |---|---|---|
-| `drbd_install_package_state` | `latest` | Package state: `latest` installs or upgrades, `present` installs only |
+| `drbd_install_package_state` | `present` | Package state: `latest` installs or upgrades, `present` installs only |
 | `drbd_install_module_version` | `""` | Pin the DRBD module package to a version, for example `9.2.17`; also locks it against upgrades |
 | `drbd_install_force_dkms` | `false` on the Red Hat family, `true` on Oracle Linux 9+ | Use `drbd-dkms` instead of prebuilt `kmod-drbd` on the Red Hat family (see [DKMS on the Red Hat family](#dkms-on-the-red-hat-family)) |
 | `drbd_install_drbdproxy` | `false` | Optionally install DRBD Proxy alongside the DRBD stack |

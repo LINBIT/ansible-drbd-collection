@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+---
+bugfixes:
+  - >
+    drbd_install - correct the documented default of
+    ``drbd_install_package_state`` in the README and argument spec. The
+    default changed from ``latest`` to ``present`` when the role gained the
+    skip-when-installed fast path, but the documentation still described
+    ``latest``.
