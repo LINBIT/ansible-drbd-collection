@@ -19,6 +19,11 @@ variables:
   - cd /tmp/ansible/ansible_collections/${COLLECTION_NAMESPACE}/${COLLECTION_NAME}
   - export ANSIBLE_COLLECTIONS_PATH=/tmp/ansible
 
+.fetch_linbit_deps: &fetch_linbit_deps
+  - git clone --depth 1
+      "https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.at.linbit.com/ansible-collections/linbit.common.git"
+      /tmp/ansible/ansible_collections/linbit/common
+
 cache:
   paths:
     - .cache/pip
@@ -27,12 +32,12 @@ ansible-lint:
   stage: lint
   image: python:3.13-slim
   before_script:
+    - apt-get -qq update && apt-get -qq install -y git
     - *collection_path
+    - *fetch_linbit_deps
     - pip install --quiet 'ansible-core>=2.20,<2.21' 'ansible-lint>=25.5.0'
   script:
-    # --offline skips ansible-galaxy fetches for declared linbit.* deps
-    # that are not yet hosted on Galaxy. All lint rules still run.
-    - ansible-lint --offline
+    - ansible-lint
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == "main"'
