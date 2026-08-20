@@ -4,6 +4,9 @@
   ansible.builtin.dnf:
     name: "{{ drbd_install_epel_package }}"
     state: present
+  register: _drbd_install_epel
+  until: _drbd_install_epel is succeeded
+  retries: 3
 
 - name: Enable CRB/PowerTools repo (DKMS build deps)
   ansible.builtin.command:
@@ -16,3 +19,6 @@
     state: present
     nobest: true
     allow_downgrade: true
+  register: _drbd_install_kernel_headers
+  until: _drbd_install_kernel_headers is succeeded
+  retries: 3

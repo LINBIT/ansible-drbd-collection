@@ -1,0 +1,4 @@
+---
+minor_changes:
+  - drbd_install - retry package installation tasks up to three times so
+    transient package repository failures do not fail the role.

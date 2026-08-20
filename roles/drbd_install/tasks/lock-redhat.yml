@@ -4,6 +4,9 @@
   ansible.builtin.dnf:
     name: python3-dnf-plugin-versionlock
     state: present
+  register: _drbd_install_versionlock_plugin
+  until: _drbd_install_versionlock_plugin is succeeded
+  retries: 3
 
 - name: Lock DRBD module package version (DNF)
   community.general.dnf_versionlock:
