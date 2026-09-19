@@ -22,6 +22,24 @@
 
 - name: Install DRBD packages
   ansible.builtin.include_tasks: "package-install-{{ ansible_facts['os_family'] | lower }}.yml"
+  when: ansible_facts['os_family'] | lower != 'debian'
+
+- name: Install DRBD packages with a local spatch fallback (Debian)
+  when: ansible_facts['os_family'] | lower == 'debian'
+  block:
+    - name: Install DRBD packages (Debian)
+      ansible.builtin.include_tasks: package-install-debian.yml
+  rescue:
+    # DKMS build fell through the shipped compat cache and SPAAS - a local spatch is the last resort
+    - name: Install coccinelle so the DKMS build can run spatch locally
+      ansible.builtin.apt:
+        name: coccinelle
+      register: _drbd_install_coccinelle_result
+      until: _drbd_install_coccinelle_result is succeeded
+      retries: 3
+
+    - name: Retry DRBD package install with local spatch
+      ansible.builtin.include_tasks: package-install-debian.yml
 
 - name: Verify DRBD DKMS module built for the running kernel
   ansible.builtin.command:

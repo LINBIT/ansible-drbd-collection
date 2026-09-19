@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: MIT
+---
+minor_changes:
+  - drbd_install - for the Debian OS family, install ``coccinelle`` and retry the
+    package install when the DKMS build fails, so hosts that cannot reach
+    LINBIT's spatch-as-a-service generate the compat patch with a local
+    ``spatch`` (https://github.com/LINBIT/ansible-drbd-collection/issues/1).

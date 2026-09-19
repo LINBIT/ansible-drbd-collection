@@ -28,6 +28,12 @@ See `defaults/main.yml` and `vars/` for additional variables.
 On the Debian family (Debian, Ubuntu, Proxmox VE), the role installs the kernel headers matching the running kernel's flavor or edition (for example `linux-headers-cloud-amd64` on Debian cloud images or `linux-headers-aws` on Ubuntu AWS kernels) so DKMS can build DRBD for the booted kernel.
 Cloud and specialized kernels are handled automatically.
 
+The `drbd-dkms` package ships pre-generated compat patches for common distribution kernels.
+When the running kernel is not covered, the DKMS build fetches a patch from LINBIT's spatch-as-a-service at `spaas.drbd.io`.
+If the package install fails, for example on a host without internet access, the role installs `coccinelle` and re-runs the install so DKMS can generate the patch with a local `spatch`.
+If the build still fails, the role fails with the package manager error.
+Debian 13 packages coccinelle 1.3, which builds DRBD. Older releases ship coccinelle 1.1.1, which might not.
+
 ### DKMS on the Red Hat family
 
 `drbd_install_force_dkms` installs `drbd-dkms` instead of the prebuilt `kmod-drbd`.
