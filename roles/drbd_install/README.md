@@ -41,6 +41,10 @@ It automatically installs EPEL, enables the CRB/PowerTools repository, and pulls
 The default is `true` on Oracle Linux 9+ because LINBIT does not ship kmod packages for that distribution.
 Debian and Ubuntu always use DKMS regardless of this flag.
 
+EPEL 9 and EPEL 10 do not package coccinelle, and EPEL 8 ships coccinelle 1.0.7, which is too old to build DRBD, so the local `spatch` fallback is not available for the Red Hat OS family.
+When the DKMS build fails, the role fails with the tail of the DKMS `make.log` so the cause, for example an unreachable `spaas.drbd.io`, is visible in the play output.
+Hosts that cannot reach `spaas.drbd.io` need a kernel that the shipped compat cache covers, or the prebuilt `kmod-drbd` package where LINBIT provides one.
+
 ## Dependencies
 
 None.

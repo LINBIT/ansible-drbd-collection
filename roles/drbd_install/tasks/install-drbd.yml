@@ -63,6 +63,20 @@
         cmd: "dkms status -m drbd -k {{ ansible_facts['kernel'] }}"
       register: _drbd_install_dkms_recheck
       changed_when: false
+  rescue:
+    - name: Collect the tail of the DKMS build log
+      ansible.builtin.shell:
+        cmd: tail -n 40 /var/lib/dkms/drbd/*/build/make.log
+      register: _drbd_install_dkms_log
+      changed_when: false
+      failed_when: false
+
+    - name: Fail with the DKMS build log
+      ansible.builtin.fail:
+        msg: >-
+          DRBD DKMS build failed for kernel {{ ansible_facts['kernel'] }}.
+          Tail of make.log:
+          {{ _drbd_install_dkms_log.stdout | default('<no make.log found>', true) }}
 
 - name: Assert DRBD DKMS module is installed for the running kernel
   ansible.builtin.assert:
