@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 ---
-# Required for Oracle Linux UEK + DRBD
+# lru_cache.ko for the running kernel - unversioned resolves to the newest kernel
 - name: Queue pre-req packages (Oracle Linux UEK)
   ansible.builtin.set_fact:
-    drbd_install_prereqs: "{{ drbd_install_prereqs + ['kernel-uek-modules'] }}"
+    drbd_install_prereqs: "{{ drbd_install_prereqs + ['kernel-uek-modules-' ~ ansible_facts['kernel']] }}"
   when: ansible_facts | linbit.common.is_uek
