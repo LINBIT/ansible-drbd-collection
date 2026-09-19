@@ -37,7 +37,7 @@ Debian 13 packages coccinelle 1.3, which builds DRBD. Older releases ship coccin
 ### DKMS on the Red Hat family
 
 `drbd_install_force_dkms` installs `drbd-dkms` instead of the prebuilt `kmod-drbd`.
-It automatically installs EPEL, enables the CRB/PowerTools repository, and pulls the unversioned `kernel-devel` (or `kernel-uek-devel` on UEK).
+It automatically installs EPEL, enables the CRB/PowerTools repository, and pulls the `kernel-devel` package matching the running kernel (or `kernel-uek-devel` on UEK), plus `perl-interpreter`, which the DRBD compat prep step needs and the `drbd-dkms` RPM does not require.
 The default is `true` on Oracle Linux 9+ because LINBIT does not ship kmod packages for that distribution.
 Debian and Ubuntu always use DKMS regardless of this flag.
 

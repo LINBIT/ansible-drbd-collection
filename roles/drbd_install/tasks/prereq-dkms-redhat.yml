@@ -13,9 +13,10 @@
     cmd: "dnf config-manager --set-enabled {{ drbd_install_crb_repo }}"
   changed_when: false
 
-- name: Install kernel headers for DKMS (DNF)
+# The drbd-dkms RPM does not require perl (yet), explicitly add it now
+- name: Install kernel headers and perl for DKMS (DNF)
   ansible.builtin.dnf:
-    name: "{{ ansible_facts | linbit.common.dkms_kernel_headers }}"
+    name: "{{ (ansible_facts | linbit.common.dkms_kernel_headers) + ['perl-interpreter'] }}"
     state: present
     nobest: true
     allow_downgrade: true

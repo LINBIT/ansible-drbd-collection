@@ -1,0 +1,6 @@
+# SPDX-License-Identifier: MIT
+---
+bugfixes:
+  - drbd_install - install ``perl-interpreter`` with the Red Hat OS family DKMS
+    prerequisites, since the ``drbd-dkms`` RPM does not require perl and the
+    DRBD compat prep step fails without it.
