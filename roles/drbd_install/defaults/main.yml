@@ -26,5 +26,8 @@ drbd_install_firewall_ports:
 
 drbd_install_force_reconfigure: false
 
+# Let the DKMS build fetch compat patches from spaas.drbd.io - set false on air-gapped hosts
+drbd_install_spaas: true
+
 # Mask drbd-graceful-shutdown.service - useful for Pacemaker
 drbd_install_mask_shutdown_service: false

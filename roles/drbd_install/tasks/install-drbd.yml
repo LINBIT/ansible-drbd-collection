@@ -56,6 +56,8 @@
     - name: Run dkms autoinstall for the running kernel
       ansible.builtin.command:
         cmd: "dkms autoinstall -k {{ ansible_facts['kernel'] }}"
+      environment:
+        SPAAS: "{{ drbd_install_spaas | bool | string | lower }}"
       changed_when: true
 
     - name: Re-check DRBD DKMS module status after build
