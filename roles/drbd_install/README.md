@@ -18,6 +18,7 @@ None.
 | `drbd_install_drbdproxy` | `false` | Optionally install DRBD Proxy alongside the DRBD stack |
 | `drbd_install_spaas` | `true` | Let the DKMS build fetch compat patches from `spaas.drbd.io`; set `false` on air-gapped hosts so the build fails fast into the local `spatch` fallback |
 | `drbd_install_firewall_rules` | `true` | Manage firewall rules for DRBD ports; set `false` to skip |
+| `drbd_install_firewalld_zone` | `""` | firewalld zone to open the DRBD replication ports in; empty uses the default zone, set it when a zone is bound to a source; ignored by UFW |
 | `drbd_install_firewall_ports` | `7000-8000/tcp` | Ports to open in firewalld or UFW for DRBD replication |
 | `drbd_install_force_reconfigure` | `false` | Force the install/configure block to re-run when DRBD 9 is present, re-asserting firewall, module, and package-lock state |
 | `drbd_install_mask_shutdown_service` | `false` | Mask `drbd-graceful-shutdown.service`; set `true` for Pacemaker-managed stacks |

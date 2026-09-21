@@ -78,6 +78,15 @@ argument_specs:
         description:
           - Manage firewall rules for DRBD ports.
           - Set C(false) to skip firewall configuration.
+      drbd_install_firewalld_zone:
+        type: str
+        default: ""
+        description:
+          - firewalld zone to open the DRBD replication ports in.
+          - Empty uses the zone firewalld would pick by itself, which is
+            the default zone. Set it when a zone is bound to a source,
+            because firewalld matches a source before an interface.
+          - Ignored by UFW, which has no zones.
       drbd_install_firewall_ports:
         type: list
         elements: dict

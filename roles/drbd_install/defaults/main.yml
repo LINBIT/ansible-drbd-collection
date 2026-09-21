@@ -21,8 +21,11 @@ drbd_install_drbdproxy: false
 
 drbd_install_firewall_rules: true
 
+# firewalld zone for the ports below. Empty uses the default zone
+drbd_install_firewalld_zone: ""
+
 drbd_install_firewall_ports:
-  - { port: '7000-8000', proto: tcp }
+  - { port: '7000-8000', proto: tcp, zone: "{{ drbd_install_firewalld_zone }}" }
 
 drbd_install_force_reconfigure: false
 
