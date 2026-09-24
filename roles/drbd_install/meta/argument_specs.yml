@@ -5,8 +5,8 @@ argument_specs:
     short_description: Install DRBD kernel module and userspace tools
     description:
       - Install DRBD kernel module and userspace tools.
-      - Re-running the role skips package installation when DRBD is already installed.
-      - Set C(drbd_install_package_state=latest) to upgrade DRBD packages on re-runs.
+      - Rerunning the role skips package installation when DRBD is already installed.
+      - Set C(drbd_install_package_state=latest) to upgrade DRBD packages on reruns.
     options:
       drbd_install_package_state:
         type: str
@@ -26,7 +26,7 @@ argument_specs:
         type: bool
         default: false
         description:
-          - Install C(drbd-dkms) instead of C(kmod-drbd) on RHEL-family distros.
+          - Install C(drbd-dkms) instead of C(kmod-drbd) on the Red Hat OS family.
           - >-
             Automatically installs EPEL, enables CRB or PowerTools, and installs the running kernel's
             C(kernel-devel) (or C(kernel-uek-devel) on UEK).
@@ -99,10 +99,10 @@ argument_specs:
         type: bool
         default: false
         description:
-          - Force re-running the install/configure block even when DRBD 9 is
+          - Force rerunning the install and configure block even when DRBD 9 is
             already installed and no upgrade or version pin is requested.
-          - Re-asserts firewall ports, re-checks the loaded kernel module,
-            and re-runs the package lock step.
+          - Reapplies firewall ports, checks the loaded kernel module again,
+            and reruns the package lock step.
           - Use for drift correction; redundant on fresh installs (the
             existing C(when:) clauses already trigger the block).
       drbd_install_mask_shutdown_service:

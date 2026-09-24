@@ -1,8 +1,8 @@
 # drbd_install
 
 Install DRBD kernel module and userspace tools.
-Re-running the role skips package installation when DRBD is already installed.
-Set `drbd_install_package_state: latest` to upgrade DRBD packages on re-runs.
+Rerunning the role skips package installation when DRBD is already installed.
+Set `drbd_install_package_state: latest` to upgrade DRBD packages on reruns.
 
 ## Requirements
 
@@ -20,7 +20,7 @@ None.
 | `drbd_install_firewall_rules` | `true` | Manage firewall rules for DRBD ports; set `false` to skip |
 | `drbd_install_firewalld_zone` | `""` | firewalld zone to open the DRBD replication ports in; empty uses the default zone, set it when a zone is bound to a source; ignored by UFW |
 | `drbd_install_firewall_ports` | `7000-8000/tcp` | Ports to open in firewalld or UFW for DRBD replication |
-| `drbd_install_force_reconfigure` | `false` | Force the install/configure block to re-run when DRBD 9 is present, re-asserting firewall, module, and package-lock state |
+| `drbd_install_force_reconfigure` | `false` | Force the install and configure block to rerun when DRBD 9 is present, reapplying the firewall, module, and package lock state |
 | `drbd_install_mask_shutdown_service` | `false` | Mask `drbd-graceful-shutdown.service`; set `true` for Pacemaker-managed stacks |
 
 See `defaults/main.yml` and `vars/` for additional variables.
@@ -32,7 +32,7 @@ Cloud and specialized kernels are handled automatically.
 
 The `drbd-dkms` package ships pre-generated compat patches for common distribution kernels.
 When the running kernel is not covered, the DKMS build fetches a patch from LINBIT's spatch-as-a-service at `spaas.drbd.io`.
-If the package install fails, for example on a host without internet access, the role installs `coccinelle` and re-runs the install so DKMS can generate the patch with a local `spatch`.
+If the package install fails, for example on a host without internet access, the role installs `coccinelle` and reruns the install so DKMS can generate the patch with a local `spatch`.
 If the build still fails, the role fails with the package manager error.
 On air-gapped hosts, set `drbd_install_spaas: false` so the build skips the service instead of waiting for the connection to time out on every attempt.
 Debian 13 packages coccinelle 1.3, which builds DRBD. Older releases ship coccinelle 1.1.1, which might not.

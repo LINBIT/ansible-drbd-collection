@@ -7,7 +7,7 @@
       - min
   when: ansible_facts['os_family'] is not defined
 
-- name: Load os-family variables for drbd_install
+- name: Load OS family variables for drbd_install
   ansible.builtin.include_vars: "{{ role_path }}/vars/{{ ansible_facts['os_family'] | lower }}.yml"
 
 - name: Load distribution-specific overrides for drbd_install
