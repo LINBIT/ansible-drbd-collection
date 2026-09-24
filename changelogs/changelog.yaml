@@ -35,3 +35,59 @@ releases:
     fragments:
       - drbd_install_dkms_kernel_pinned_check.yml
     release_date: '2026-05-21'
+  0.9.9:
+    changes:
+      bugfixes:
+        - drbd_install - document the ``drbd_install_package_state`` default as ``present``
+          in the README and argument spec, matching the actual default.
+        - 'drbd_install - gather the OS facts the role needs when they are missing,
+          so it works under ``gather_facts: false`` and with tag filters that skip
+          fact gathering.'
+        - drbd_install - install ``perl-interpreter`` with the DKMS prerequisites
+          on the Red Hat OS family. The ``drbd-dkms`` RPM does not require it, and
+          the DRBD compat step fails without it on UEK hosts.
+        - drbd_install - install the kernel headers that match the running kernel
+          flavor, so DKMS builds DRBD on cloud, UEK, Real Time, and 64K-page kernels.
+          The role uses the ``linbit.common.dkms_kernel_headers`` filter instead of
+          assuming the generic headers on the Debian OS family and ``kernel-devel``
+          on the Red Hat OS family.
+        - drbd_install - on UEK, install ``kernel-uek-modules`` for the running kernel.
+          The unversioned package pulled in the newest kernel and left the running
+          kernel without the ``lru_cache`` module that DRBD needs.
+      minor_changes:
+        - drbd_install - add ``drbd_install_firewalld_zone`` to open the DRBD replication
+          ports in a specific firewalld zone, for example a zone bound to the replication
+          network source. Empty, the default, uses the firewalld default zone. UFW
+          ignores it (https://github.com/LINBIT/ansible-linstor-collection/issues/2).
+        - drbd_install - add ``drbd_install_spaas`` (default ``true``). Set it to
+          ``false`` on air-gapped hosts so the DKMS build skips LINBIT spatch-as-a-service
+          instead of waiting for a connection timeout.
+        - drbd_install - list Ubuntu 26.04 and SLES 15 SP7 as supported platforms,
+          and drop SLES 15 GA through SP3, which are past their support windows.
+        - drbd_install - on the Debian OS family, install ``coccinelle`` and retry
+          when the DKMS build fails, so hosts that cannot reach LINBIT spatch-as-a-service
+          generate the compat patch locally (https://github.com/LINBIT/ansible-drbd-collection/issues/1).
+        - drbd_install - on the Red Hat OS family, report the tail of the DKMS ``make.log``
+          when the DKMS build fails instead of the bare ``dkms autoinstall`` error.
+        - drbd_install - retry package installs up to three times so transient repository
+          failures do not fail the role.
+        - galaxy.yml - point the repository, documentation, and issues URLs at the
+          public GitHub repository.
+        - galaxy.yml - require ``community.general`` ``>=11.0.0`` and drop the ``<12.6.0``
+          upper bound.
+    fragments:
+      - community_general_bounds.yml
+      - dkms_cloud_kernel_headers.yml
+      - docs.yml
+      - drbd-install-coccinelle-fallback.yml
+      - drbd-install-dkms-build-log.yml
+      - drbd-install-package-retries.yml
+      - drbd-install-redhat-dkms-perl.yml
+      - drbd-install-spaas-toggle.yml
+      - drbd-install-uek-modules-running-kernel.yml
+      - drbd_install_package_state_docs.yml
+      - firewalld-zone.yml
+      - galaxy_yml_github_urls.yml
+      - gather_facts_guard.yml
+      - meta_platforms.yml
+    release_date: '2026-09-24'

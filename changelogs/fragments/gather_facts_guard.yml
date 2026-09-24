@@ -1,5 +1,0 @@
-# SPDX-License-Identifier: MIT
----
-bugfixes:
-  - >-
-    drbd_install - gather the OS facts the role needs when they are missing, so it works under ``gather_facts: false`` and with tag filters that skip fact gathering.

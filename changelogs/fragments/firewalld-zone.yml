@@ -1,5 +1,0 @@
-# SPDX-License-Identifier: MIT
----
-minor_changes:
-  - drbd_install - add ``drbd_install_firewalld_zone`` to open the DRBD replication ports in a specific firewalld zone, for example a zone bound to the replication network source.
-    Empty, the default, uses the firewalld default zone. UFW ignores it (https://github.com/LINBIT/ansible-linstor-collection/issues/2).
