@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: MIT
+---
+minor_changes:
+  - drbd_install - list Ubuntu 26.04 and SLES 15 SP7 as supported platforms, and drop SLES 15 GA through SP3, which are past their support windows.

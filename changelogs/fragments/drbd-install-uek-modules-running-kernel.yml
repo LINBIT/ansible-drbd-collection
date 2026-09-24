@@ -1,7 +1,4 @@
 # SPDX-License-Identifier: MIT
 ---
 bugfixes:
-  - drbd_install - on UEK kernels, install ``kernel-uek-modules`` for the
-    running kernel instead of the unversioned package, which resolved to the
-    newest kernel, pulled that kernel in as a dependency, and left the running
-    kernel without the ``lru_cache`` module DRBD links against.
+  - drbd_install - on UEK, install ``kernel-uek-modules`` for the running kernel. The unversioned package pulled in the newest kernel and left the running kernel without the ``lru_cache`` module that DRBD needs.

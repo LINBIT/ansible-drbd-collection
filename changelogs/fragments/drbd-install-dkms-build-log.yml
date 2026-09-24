@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: MIT
 ---
 minor_changes:
-  - drbd_install - when the DKMS build fails for the Red Hat OS family, fail with
-    the tail of the DKMS ``make.log`` instead of the bare ``dkms autoinstall``
-    error, since EPEL offers no coccinelle recent enough for a local fallback.
+  - drbd_install - on the Red Hat OS family, report the tail of the DKMS ``make.log`` when the DKMS build fails instead of the bare ``dkms autoinstall`` error.

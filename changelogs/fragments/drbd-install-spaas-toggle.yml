@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: MIT
 ---
 minor_changes:
-  - drbd_install - new ``drbd_install_spaas`` variable (default ``true``); set
-    it to ``false`` on air-gapped hosts so the DKMS build skips LINBIT's
-    spatch-as-a-service instead of waiting for the connection to time out.
+  - drbd_install - add ``drbd_install_spaas`` (default ``true``). Set it to ``false`` on air-gapped hosts so the DKMS build skips LINBIT spatch-as-a-service instead of waiting for a connection timeout.

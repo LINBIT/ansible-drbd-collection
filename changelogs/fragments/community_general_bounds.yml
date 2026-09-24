@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: MIT
+---
+minor_changes:
+  - galaxy.yml - require ``community.general`` ``>=11.0.0`` and drop the ``<12.6.0`` upper bound.
