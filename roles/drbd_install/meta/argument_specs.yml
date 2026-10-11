@@ -66,7 +66,7 @@ argument_specs:
         type: str
         description:
           - Computed package name with version pin for the DRBD module package.
-          - Only used when C(drbd_install_module_version) is set.
+          - Only used when O(drbd_install_module_version) is set.
       drbd_install_drbdproxy:
         type: bool
         default: false
