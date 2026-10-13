@@ -91,3 +91,9 @@ releases:
       - gather_facts_guard.yml
       - meta_platforms.yml
     release_date: '2026-09-24'
+  0.9.10:
+    changes:
+      release_summary: Documentation-only release. Role option references in the
+        argument specs use the ``O()`` markup, which antsibull-docs checks against
+        the real options.
+    release_date: '2026-10-13'

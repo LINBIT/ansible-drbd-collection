@@ -2,6 +2,8 @@
 
 **Topics**
 
+- <a href="#v0-9-10">v0\.9\.10</a>
+    - <a href="#release-summary">Release Summary</a>
 - <a href="#v0-9-9">v0\.9\.9</a>
     - <a href="#minor-changes">Minor Changes</a>
     - <a href="#bugfixes">Bugfixes</a>
@@ -12,6 +14,14 @@
     - <a href="#bugfixes-2">Bugfixes</a>
 
 This changelog describes changes after version 0\.9\.6\.
+
+<a id="v0-9-10"></a>
+## v0\.9\.10
+
+<a id="release-summary"></a>
+### Release Summary
+
+Documentation\-only release\. Role option references in the argument specs use the <code>O\(\)</code> markup\, which antsibull\-docs checks against the real options\.
 
 <a id="v0-9-9"></a>
 ## v0\.9\.9
