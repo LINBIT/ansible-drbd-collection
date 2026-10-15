@@ -1,0 +1,6 @@
+# SPDX-License-Identifier: MIT
+---
+bugfixes:
+  - >-
+    drbd_install - check mode on a host without DRBD no longer fails at the DKMS check, the kernel
+    module load, or the package lock, which all need the packages that check mode only simulates.
