@@ -31,17 +31,33 @@
   register: _drbd_install_module_check
   failed_when: false
 
+- name: Gather installed package versions
+  ansible.builtin.package_facts:
+  when: drbd_install_module_version | length > 0
+
+- name: Check whether the pinned DRBD module version is installed
+  ansible.builtin.set_fact:
+    _drbd_install_pin_installed: >-
+      {{ drbd_install_module_version | length > 0
+         and _drbd_install_module_evr.startswith(drbd_install_module_version) }}
+  vars:
+    _drbd_install_module_pkg: "{{ (ansible_facts['packages'] | default({})).get(_drbd_module_package, [{}]) | first }}"
+    _drbd_install_module_evr: >-
+      {{ _drbd_install_module_pkg['version'] | default('')
+         ~ ('-' ~ _drbd_install_module_pkg['release'] if _drbd_install_module_pkg['release'] is defined else '') }}
+
 - name: Install and configure DRBD
   when:
     - not _drbd_install_drbdadm_check.stat.exists
       or _drbd_install_module_check.content is not defined
       or (_drbd_install_module_check.content | default('') | b64decode | trim) is match('^8\.')
-      or drbd_install_module_version | length > 0
+      or (drbd_install_module_version | length > 0 and not _drbd_install_pin_installed)
       or drbd_install_package_state != 'present'
       or drbd_install_force_reconfigure | bool
   block:
     - name: Unlock DRBD module package version
       ansible.builtin.include_tasks: "unlock-{{ ansible_facts['os_family'] | lower }}.yml"
+      when: not _drbd_install_pin_installed
 
     - name: Pin DRBD module package version
       ansible.builtin.include_tasks: "pin-version-{{ ansible_facts['os_family'] | lower }}.yml"
@@ -49,6 +65,10 @@
 
     - name: Install DRBD
       ansible.builtin.include_tasks: install-drbd.yml
+
+- name: Lock DRBD module package version
+  ansible.builtin.include_tasks: "lock-{{ ansible_facts['os_family'] | lower }}.yml"
+  when: drbd_install_module_version | length > 0
 
 - name: Gather service facts to check for drbd-graceful-shutdown
   ansible.builtin.service_facts:

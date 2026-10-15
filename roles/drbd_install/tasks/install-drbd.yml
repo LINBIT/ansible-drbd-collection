@@ -133,7 +133,3 @@
       ({{ _drbd_install_post_version.content | b64decode | trim }}).
       Expected DRBD 9.x. A reboot may be required to load the updated module.
     quiet: true
-
-- name: Lock DRBD module package version
-  ansible.builtin.include_tasks: "lock-{{ ansible_facts['os_family'] | lower }}.yml"
-  when: drbd_install_module_version | length > 0

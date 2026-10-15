@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: MIT
+---
+bugfixes:
+  - >-
+    drbd_install - with ``drbd_install_module_version`` set, a rerun on a node that already has
+    the pinned module installed no longer reruns the install block or removes and re-adds the
+    package lock, so it reports no changes.
