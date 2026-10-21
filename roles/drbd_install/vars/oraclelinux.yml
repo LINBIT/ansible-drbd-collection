@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 ---
-# LINBIT ships UEK kmod builds for OL8 only; OL9+ must use DKMS (currently).
+# OL9+ kmods are not built for the latest UEK kernels, use DKMS instead
 drbd_install_force_dkms: "{{ (ansible_facts['distribution_major_version'] | int) >= 9 }}"
 
 drbd_install_dkms_packages:
