@@ -24,16 +24,28 @@ argument_specs:
           - Also locks the package in the OS package manager to prevent accidental upgrades.
       drbd_install_force_dkms:
         type: bool
-        default: false
         description:
-          - Install C(drbd-dkms) instead of C(kmod-drbd) on the Red Hat OS family.
+          - Build the DRBD module with C(drbd-dkms) instead of installing a prebuilt module package.
           - >-
-            Automatically installs EPEL, enables CRB or PowerTools, and installs the running kernel's
-            C(kernel-devel) (or C(kernel-uek-devel) on UEK).
+            The prebuilt package is C(kmod-drbd) on the Red Hat OS family and C(drbd-module-<kernel>), one
+            package per kernel release from the LINBIT customer repository, on Debian and Ubuntu.
+          - >-
+            Defaults to C(true) on the Debian OS family, because a prebuilt module covers only the running
+            kernel, and to C(false) on the Red Hat OS family.
+          - >-
+            On the Red Hat OS family, C(true) installs EPEL, enables CRB or PowerTools, and installs the
+            running kernel's C(kernel-devel) (or C(kernel-uek-devel) on UEK).
           - >-
             Defaults to C(true) on Oracle Linux 9 and newer because LINBIT does not ship kmod packages for
             those releases.
-          - Debian/Ubuntu always use DKMS regardless of this flag.
+          - Proxmox VE always uses DKMS, because its repositories carry no prebuilt module package.
+          - >-
+            With C(false) on Debian or Ubuntu, the role fails when no configured repository offers
+            C(drbd-module-<kernel>) for the running kernel, or none at the version that
+            O(drbd_install_module_version) names, and lists the available versions.
+          - >-
+            Switching the value on an installed host takes effect when the install block runs, for example
+            with O(drbd_install_force_reconfigure), and removes the module package of the other build path.
       drbd_install_spaas:
         type: bool
         default: true

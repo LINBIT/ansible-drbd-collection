@@ -5,3 +5,6 @@ _drbd_module_package: ""
 
 # Filtered out by reject('falsy') during install task
 _drbd_install_proxy: "{{ 'drbd-proxy' if drbd_install_drbdproxy | bool else '' }}"
+
+# The Proxmox VE repositories carry no prebuilt module package
+_drbd_install_dkms: "{{ drbd_install_force_dkms | bool or ansible_facts | linbit.common.is_pve }}"

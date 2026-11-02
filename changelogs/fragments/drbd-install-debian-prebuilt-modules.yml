@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+---
+minor_changes:
+  - >-
+    drbd_install - ``drbd_install_force_dkms: false`` on Debian and Ubuntu installs the prebuilt
+    ``drbd-module-<kernel>`` package from the LINBIT customer repository instead of ``drbd-dkms``. It
+    fails and lists the available versions when no repository has one for the running kernel or the
+    pinned version. The default stays ``true`` on the Debian OS family, and Proxmox VE always uses DKMS.
+    Switching an installed host removes the module package of the other build path.

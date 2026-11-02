@@ -3,8 +3,55 @@
 - name: Queue DRBD kernel header packages for the running kernel
   ansible.builtin.set_fact:
     drbd_install_prereqs: "{{ drbd_install_prereqs + (ansible_facts | linbit.common.dkms_kernel_headers) }}"
+  when: _drbd_install_dkms
 
 - name: Queue pahole for Proxmox VE BTF DKMS builds
   ansible.builtin.set_fact:
     drbd_install_prereqs: "{{ drbd_install_prereqs + ['pahole'] }}"
   when: ansible_facts | linbit.common.is_pve
+
+- name: Check for a prebuilt DRBD module package for the running kernel
+  when: not _drbd_install_dkms
+  block:
+    - name: Refresh the APT cache (APT)
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+      check_mode: false
+      changed_when: false
+      register: _drbd_install_apt_cache
+      until: _drbd_install_apt_cache is succeeded
+      retries: 3
+      delay: 10
+
+    - name: Look up the prebuilt DRBD module package versions on offer (APT)
+      ansible.builtin.command:
+        cmd: "apt-cache madison {{ _drbd_module_package }}"
+      check_mode: false
+      changed_when: false
+      register: _drbd_install_prebuilt_lookup
+
+    - name: Assert that a repository offers the prebuilt DRBD module package
+      ansible.builtin.assert:
+        that: >-
+          _drbd_install_prebuilt_matching | length > 0
+          or _drbd_install_pin_installed
+          or (drbd_install_module_version | length == 0
+              and _drbd_module_package in ansible_facts['packages'])
+        fail_msg: >-
+          No configured APT repository offers {{ _drbd_module_package }}
+          for the running kernel {{ ansible_facts['kernel'] }}{{
+            ' at version ' ~ drbd_install_module_version if drbd_install_module_version | length > 0 else '' }}.
+          Versions on offer: {{ _drbd_install_prebuilt_versions | join(', ') | default('none', true) }}.
+          LINBIT builds prebuilt DRBD modules per kernel release in the customer repository only.
+          Boot a kernel it covers, pin a version it offers, or set drbd_install_force_dkms: true
+          to build the module with DKMS.
+        quiet: true
+      vars:
+        _drbd_install_prebuilt_versions: >-
+          {{ _drbd_install_prebuilt_lookup.stdout_lines
+             | select('search', 'Packages$')
+             | map('split', '|') | map(attribute=1) | map('trim') | list }}
+        _drbd_install_prebuilt_matching: >-
+          {{ _drbd_install_prebuilt_versions
+             | select('match', drbd_install_module_version | regex_escape) | list }}

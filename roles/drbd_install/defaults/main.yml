@@ -6,7 +6,8 @@ drbd_install_prereqs: []
 
 drbd_install_package_state: present
 
-drbd_install_force_dkms: false
+# A prebuilt module covers only the running kernel, so the role defaults to DKMS on the Debian OS family
+drbd_install_force_dkms: "{{ ansible_facts['os_family'] | default('') | lower == 'debian' }}"
 
 drbd_install_module_version: ""
 

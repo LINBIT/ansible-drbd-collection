@@ -33,7 +33,9 @@
 
 - name: Gather installed package versions
   ansible.builtin.package_facts:
-  when: drbd_install_module_version | length > 0
+  when: >-
+    drbd_install_module_version | length > 0
+    or ansible_facts['os_family'] | lower == 'debian'
 
 - name: Check whether the pinned DRBD module version is installed
   ansible.builtin.set_fact:

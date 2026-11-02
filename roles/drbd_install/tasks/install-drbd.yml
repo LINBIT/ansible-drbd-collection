@@ -22,10 +22,12 @@
 
 - name: Install DRBD packages
   ansible.builtin.include_tasks: "package-install-{{ ansible_facts['os_family'] | lower }}.yml"
-  when: ansible_facts['os_family'] | lower != 'debian'
+  when: ansible_facts['os_family'] | lower != 'debian' or not _drbd_install_dkms
 
 - name: Install DRBD packages with a local spatch fallback (Debian)
-  when: ansible_facts['os_family'] | lower == 'debian'
+  when:
+    - ansible_facts['os_family'] | lower == 'debian'
+    - _drbd_install_dkms
   block:
     - name: Install DRBD packages (Debian)
       ansible.builtin.include_tasks: package-install-debian.yml

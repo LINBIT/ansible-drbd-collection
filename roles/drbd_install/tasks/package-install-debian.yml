@@ -11,3 +11,11 @@
   until: _drbd_install_packages_result is succeeded
   retries: 3
   notify: restart_multipathd
+
+- name: Remove the DRBD module packages of the other build path (APT)
+  ansible.builtin.apt:
+    name: "{{ _drbd_install_replaced_packages }}"
+    state: absent
+    # An earlier version pin holds the package of the other build path
+    allow_change_held_packages: true
+  when: _drbd_install_replaced_packages | length > 0
