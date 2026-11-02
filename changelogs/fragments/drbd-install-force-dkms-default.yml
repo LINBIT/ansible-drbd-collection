@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: MIT
+---
+bugfixes:
+  - >-
+    drbd_install - the Oracle Linux 9+ default of ``drbd_install_force_dkms`` moved from a role variable
+    into the role default, so inventory, play and ``import_role`` variables override it as on every
+    other distribution.

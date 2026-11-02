@@ -1,8 +1,5 @@
 # SPDX-License-Identifier: MIT
 ---
-# OL9+ kmods are not built for the latest UEK kernels, use DKMS instead
-drbd_install_force_dkms: "{{ (ansible_facts['distribution_major_version'] | int) >= 9 }}"
-
 drbd_install_dkms_packages:
   - drbd
   - drbd-utils

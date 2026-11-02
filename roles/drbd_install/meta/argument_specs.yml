@@ -36,8 +36,8 @@ argument_specs:
             On the Red Hat OS family, C(true) installs EPEL, enables CRB or PowerTools, and installs the
             running kernel's C(kernel-devel) (or C(kernel-uek-devel) on UEK).
           - >-
-            Defaults to C(true) on Oracle Linux 9 and newer because LINBIT does not ship kmod packages for
-            those releases.
+            Defaults to C(true) on Oracle Linux 9 and newer because LINBIT builds C(kmod-drbd) there only
+            for some UEK kernels, not the latest ones.
           - Proxmox VE always uses DKMS, because its repositories carry no prebuilt module package.
           - >-
             With C(false) on Debian or Ubuntu, the role fails when no configured repository offers
