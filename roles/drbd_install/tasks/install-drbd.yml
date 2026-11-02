@@ -50,13 +50,13 @@
     - name: Verify DRBD DKMS module built for the running kernel
       ansible.builtin.command:
         cmd: "dkms status -m drbd -k {{ ansible_facts['kernel'] }}"
-      when: "'drbd-dkms' in drbd_install_packages"
+      when: "_drbd_module_package == 'drbd-dkms'"
       register: _drbd_install_dkms_check
       changed_when: false
 
     - name: Build DRBD DKMS modules for the running kernel
       when:
-        - "'drbd-dkms' in drbd_install_packages"
+        - "_drbd_module_package == 'drbd-dkms'"
         - "'installed' not in _drbd_install_dkms_check.stdout"
       block:
         - name: Run dkms autoinstall for the running kernel
@@ -100,7 +100,7 @@
           Check that kernel headers for {{ ansible_facts['kernel'] }} are
           installed and inspect `journalctl -t dkms` for build errors.
         quiet: true
-      when: "'drbd-dkms' in drbd_install_packages"
+      when: "_drbd_module_package == 'drbd-dkms'"
 
     - name: Load DRBD kernel module
       community.general.modprobe:

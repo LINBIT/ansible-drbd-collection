@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: MIT
+---
+bugfixes:
+  - >-
+    drbd_install - with ``drbd_install_module_version`` set, the role skipped the DKMS status check, the
+    ``dkms autoinstall`` retry and the module assertion, because the pin rewrites ``drbd-dkms`` in the
+    package list. They now run on every DKMS install, pinned or not.
